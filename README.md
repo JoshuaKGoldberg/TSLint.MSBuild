@@ -13,6 +13,7 @@ At runtime, the list of .ts files from your build (`TypeScriptCompile`) is outpu
 A .js runner file then takes in the path to that file list, scans for `tslint.json` files, and runs TSLint on each .ts file.
 
 The following properties may be overidden via your targets:
+* **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
 * **TSLintDeleteFileListFile** - Whether to delete the file list file when done. Defaults to `true`.
 * **TSLintExclude** - A JavaScript RegExp literal of matching file names to exclude. Defaults to `"^$"` (none).
 * **TSLintFilesRootDir** - A root directory to work within. Defaults to `$(MSBuildProjectDirectory)`.
