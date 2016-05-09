@@ -12,6 +12,7 @@
     <PropertyGroup>
       <TSLintDeleteFileListFile Condition="'$(TSLintDeleteFileListFile)' == ''">true</TSLintDeleteFileListFile>
       <TSLintExclude Condition="'$(TSLintExclude)' == ''">^$</TSLintExclude>
+      <TSLintIgnoreExitCode Condition="'$(TSLintIgnoreExitCode)' == ''">true</TSLintIgnoreExitCode>
       <TSLintFilesRootDir Condition="'$(TSLintFilesRootDir)' == ''">$(MSBuildProjectDirectory)</TSLintFilesRootDir>
       <TSLintFileListDir Condition="'$(TSLintFileListDir)' == ''">$(IntermediateOutDir)</TSLintFileListDir>
       <TSLintFileListName Condition="'$(TSLintFileListName)' == ''">TSLintFileList-$(MSBuildProjectName).txt</TSLintFileListName>
@@ -32,9 +33,9 @@
       Overwrite="true" />
 
     <!-- Run TSLint via the runner -->
-    <Exec 
+    <Exec
       Command="&quot;$(TSLintNodeExe)&quot; --harmony &quot;$(TSLintRunnerScript)&quot; -exclude &quot;$(TSLintExclude)&quot; -files-root-dir &quot;$(TSLintFilesRootDir)&quot; -file-list-file &quot;$(TSLintFileListFile)&quot;"
-      IgnoreExitCode="true" />
+      IgnoreExitCode="$(TSLintIgnoreExitCode)" />
 
     <!-- Clean up our compiled file list when done -->
     <Delete Condition="'$(TSLintDeleteFileListFile)' == 'true'" Files="$(TSLintFileListFile)" />

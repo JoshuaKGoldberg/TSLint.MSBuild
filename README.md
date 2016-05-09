@@ -15,6 +15,7 @@ A .js runner file then takes in the path to that file list, scans for `tslint.js
 The following properties may be overidden via your targets:
 * **TSLintDeleteFileListFile** - Whether to delete the file list file when done. Defaults to `true`.
 * **TSLintExclude** - A JavaScript RegExp literal of matching file names to exclude. Defaults to `"^$"` (none).
+* **TSLintIgnoreExitCode** - Whether linting failures should be ignored (not break the build). Defaults to `true`.
 * **TSLintFilesRootDir** - A root directory to work within. Defaults to `$(MSBuildProjectDirectory)`.
 * **TSLintFileListDir** - The directory to put the file list in. Defaults to `$(IntermediateOutDir)`.
 * **TSLintFileListName** - The name of the file list file. Defaults to `TSLintFileList.txt-$(MSBuildProjectName)`.
