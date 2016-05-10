@@ -36,13 +36,13 @@
     <Exec 
       Command="&quot;$(TSLintNodeExe)&quot; --harmony &quot;$(TSLintRunnerScript)&quot; -exclude &quot;$(TSLintExclude)&quot; -files-root-dir &quot;$(TSLintFilesRootDir)&quot; -file-list-file &quot;$(TSLintFileListFile)&quot;"
       IgnoreExitCode="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
 
     <!-- Clean up our compiled file list when done -->
     <Delete Condition="'$(TSLintDeleteFileListFile)' == 'true'" Files="$(TSLintFileListFile)" />
 
-    <!-- Return an Error if linter returned exitcode -1 and we should break on errors -->
-    <Error Condition="'$(ErrorCode)' == '-1' And '$(TSLintBreakBuildOnError)' == 'true'" />
+    <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
+    <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" />
   </Target>
 </Project>
