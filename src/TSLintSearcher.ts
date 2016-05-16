@@ -1,4 +1,7 @@
-/// <reference path="../typings/main/ambient/node/index.d.ts" />
+/// <reference path="../typings/main.d.ts" />
+
+import * as fs from "fs";
+import * as path from "path";
 
 /**
  * The folder name NuGet packages are stored under.
@@ -16,9 +19,6 @@ const pathSuffix: string = "tools/node_modules/tslint";
 const possibleEnvironmentVariables: string[] = [
     "NugetMachineInstallRoot"
 ];
-
-const fs = require("fs");
-const path = require("path");
 
 /**
  * A utility to find a TSLint NuGet package.

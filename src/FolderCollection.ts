@@ -1,4 +1,4 @@
-/// <reference path="../typings/main/ambient/node/index.d.ts" />
+/// <reference path="../typings/main.d.ts" />
 
 import { ArgumentsCollection } from "./ArgumentsCollection";
 import { Folder } from "./Folder";
@@ -27,6 +27,13 @@ export class FolderCollection {
     }
 
     /**
+     * @returns Parsed arguments to the program.
+     */
+    public getArgumentsCollection(): ArgumentsCollection {
+        return this.argumentsCollection;
+    }
+
+    /**
      * @returns The known added folders, in sorted order.
      */
     public getFolders(): Folder[] {
@@ -46,7 +53,7 @@ export class FolderCollection {
     public addFilePaths(filePaths: string[]): Promise<any> {
         return Promise
             .all(filePaths.map(filePath => this.addFilePath(filePath)))
-            .then(() => this.ensureFoldersHaveConfigs());
+            .then(() => this.ensureFoldersHaveRules());
     }
 
     /**
@@ -77,21 +84,21 @@ export class FolderCollection {
         folder = this.folders[folderPath] = new Folder(folderPath);
 
         return folder
-            .loadTSLintConfig()
-            .then(lintConfig => this.onFolderLoad(lintConfig, folderPath));
+            .loadRules()
+            .then(rules => this.onFolderLoad(rules, folderPath));
     }
 
     /**
      * Responds to a folder load, checking its parent's tslint.json if necessary.
      * 
-     * @param lintConfig   Whether the folder had its own tslint.json. 
+     * @param rules   Whether the folder had its own tslint.json. 
      * @param folderPath   The path to the folder.
      * @returns A promise for the folder.
      */
-    private onFolderLoad(foundConfig: boolean, folderPath: string): Promise<Folder> {
+    private onFolderLoad(foundRules: boolean, folderPath: string): Promise<Folder> {
         const folder: Folder = this.folders[folderPath];
 
-        if (foundConfig) {
+        if (foundRules) {
             return new Promise(resolve => resolve(folder));
         }
 
@@ -127,10 +134,10 @@ export class FolderCollection {
             .addFolderPath(parentPath)
             .then(parentFolder => parentFolder.waitForTSLint())
             .then(parentFolder => {
-                const parentTSLintConfig = parentFolder.getTSLintConfig();
+                const parentTSLintRules = parentFolder.getRules();
 
-                if (parentTSLintConfig) {
-                    folder.setTSLintConfig(parentTSLintConfig);
+                if (parentTSLintRules) {
+                    folder.setRules(parentTSLintRules);
                 }
 
                 return parentFolder;
@@ -140,16 +147,16 @@ export class FolderCollection {
     /**
      * @todo Fix the actual issue, instead of this crappy fix...
      */
-    private ensureFoldersHaveConfigs(): void {
+    private ensureFoldersHaveRules(): void {
         this.getFolders()
-            .filter(folder => !folder.getTSLintConfig())
-            .forEach(folder => this.ensureFolderHasConfig(folder));
+            .filter(folder => !folder.getRules())
+            .forEach(folder => this.ensureFolderHasRules(folder));
     }
 
     /**
      * @todo Fix the actual issue, instead of this crappy fix...
      */
-    private ensureFolderHasConfig(folder: Folder): void {
+    private ensureFolderHasRules(folder: Folder): void {
         let currentPath: string = folder.getPath();
 
         while (true) {
@@ -163,9 +170,9 @@ export class FolderCollection {
                 return;
             }
 
-            const tsLintConfig = ancestor.getTSLintConfig();
-            if (tsLintConfig) {
-                folder.setTSLintConfig(tsLintConfig);
+            const rules = ancestor.getRules();
+            if (rules) {
+                folder.setRules(rules);
                 return;
             }
 

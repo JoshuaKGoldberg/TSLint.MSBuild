@@ -22,7 +22,7 @@ export class WaitLock {
      * 
      * @param callback   A callback to be executed.
      */
-    addCallback(callback: Function): void {
+    public addCallback(callback: Function): void {
         if (this.completed) {
             callback();
         } else {
@@ -33,7 +33,7 @@ export class WaitLock {
     /**
      * Marks that an action has started.
      */
-    markActionStart(): void {
+    public markActionStart(): void {
         this.pendingActions += 1;
     }
 
@@ -41,7 +41,7 @@ export class WaitLock {
      * Marks that an action has completed. If all actions have
      * completed, the callbacks queue is drained.
      */
-    markActionCompletion(): void {
+    public markActionCompletion(): void {
         this.pendingActions -= 1;
 
         if (this.pendingActions === 0) {

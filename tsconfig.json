@@ -1,14 +1,18 @@
 {
     "compilerOptions": {
-        "outFile": "dist/runner.js",
+        "module": "commonjs",
+        "outDir": "dist",
         "pretty": true,
         "sourceMap": false,
-        "target": "es6"
+        "target": "es2015"
     },
     "files": [
+        "src/ArgumentsCollection.ts",
         "src/Folder.ts",
         "src/FolderCollection.ts",
         "src/index.ts",
-        "src/LintRunner.ts"
+        "src/LintRunner.ts",
+        "src/TSLintSearcher.ts",
+        "src/WaitLock.ts"
     ]
 }

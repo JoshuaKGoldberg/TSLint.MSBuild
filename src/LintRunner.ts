@@ -1,7 +1,6 @@
-/// <reference path="../typings/main/ambient/node/index.d.ts" />
+/// <reference path="../typings/main.d.ts" />
 
-const fs = require("fs");
-
+import * as fs from "fs";
 import { ArgumentsCollection } from "./ArgumentsCollection";
 import { Folder } from "./Folder";
 import { FolderCollection } from "./FolderCollection";
@@ -74,17 +73,18 @@ export class LintRunner {
      * @returns A promise for TSLint errors, in alphabetic order of file path.
      */
     private lintFolder(folder: Folder): Promise<string[]> {
-        const lintConfig: any = folder.getTSLintConfig();
+        const rules: any = folder.getRules();
+        const options = this.generateFolderOptions(rules);
 
-        if (!lintConfig) {
+        if (!rules) {
             throw new Error(`No tslint.json available for '${folder.getPath()}'`);
         }
 
-        const filePaths: string[] = folder.getFilePaths();
-        const filePromises: Promise<string[]>[] = filePaths
+        const filePromises: Promise<string[]>[] = folder
+            .getFilePaths()
             .map(filePath => {
                 try {
-                    return this.lintFile(filePath, lintConfig);
+                    return this.lintFile(filePath, options);
                 } catch (error) {
                     return this.promiseFailure("file", filePath, error);
                 }
@@ -97,10 +97,10 @@ export class LintRunner {
      * Runs TSLint on a file.
      * 
      * @param filePath   The path to the file.
-     * @param lintConfig   TSLint settings from a tslint.json.
+     * @param options   Overall options for linting.
      * @returns A promise for TSLint errors, in alphabetic order of file path.
      */
-    private lintFile(filePath: string, lintConfig: any): Promise<string[]> {
+    private lintFile(filePath: string, options: any): Promise<string[]> {
         return new Promise(resolve => {
             fs.readFile(filePath, (error, result) => {
                 if (error) {
@@ -109,7 +109,7 @@ export class LintRunner {
                 }
 
                 try {
-                    const linter = new this.tsLint(filePath, result.toString(), lintConfig);
+                    const linter = new this.tsLint(filePath, result.toString(), options);
                     const errorSummary = linter.lint();
 
                     resolve(JSON.parse(errorSummary.output));
@@ -118,6 +118,27 @@ export class LintRunner {
                 }
             });
         });
+    }
+
+    /**
+     * Generates options to be passed into a Linter.
+     * 
+     * @param rules   Linting rules for a folder.
+     * @returns Options to be passed into a Linter.
+     */
+    private generateFolderOptions(rules: any): any {
+        const options: any = {
+            formatter: "json",
+            configuration: rules
+        };
+
+        const rulesDirectories: string[] = this.folders.getArgumentsCollection().getRulesDirectories();
+
+        if (rulesDirectories !== undefined && rulesDirectories.length > 0) {
+            options.rulesDirectory = rulesDirectories;
+        }
+
+        return options;
     }
 
     /**

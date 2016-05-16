@@ -1,6 +1,6 @@
 {
   "name": "tslint-msbuild",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": " An MSBuild target for linting TypeScript code using TSLint.",
   "author": "Joshua K Goldberg",
   "license": "MIT",
@@ -11,12 +11,12 @@
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-exec": "^0.4.6",
+    "grunt-exec": "^0.4.7",
     "grunt-npm-install": "^0.3.0",
     "grunt-nuget": "^0.1.5",
-    "grunt-ts": "^5.4.0",
+    "grunt-ts": "^5.5.1",
     "grunt-tslint": "^3.0.3",
-    "tslint": "^3.7.1",
+    "tslint": "^3.10.2",
     "typescript": "^1.8.9",
     "typings": "^0.7.3"
   }

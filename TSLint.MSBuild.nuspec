@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>TSLint.MSBuild</id>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
     <authors>palantir, joshuakgoldberg</authors>
     <owners>joshuakgoldberg</owners>
     <licenseUrl>https://github.com/JoshuaKGoldberg/TSLint.MSBuild/blob/master/LICENSE.md</licenseUrl>
@@ -23,6 +23,6 @@
     <file src="dist\node-*.exe" target="tools" />
     <file src="dist\package.json" target="tools" />
     <file src="dist\README.md" target="tools" />
-    <file src="dist\runner.js" target="tools" />
+    <file src="dist\*.js" target="tools" />
   </files>
 </package>

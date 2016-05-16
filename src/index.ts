@@ -1,14 +1,9 @@
-/// <reference path="../typings/main/ambient/node/index.d.ts" />
-/// <reference path="ArgumentsCollection.ts" />
-/// <reference path="Folder.ts" />
-/// <reference path="FolderCollection.ts" />
-/// <reference path="LintRunner.ts" />
+/// <reference path="../typings/main.d.ts" />
 
 console.log("Starting TSLint runner.");
 
-const fs = require("fs");
-const path = require("path");
-
+import * as fs from "fs";
+import * as path from "path";
 import { ArgumentsCollection } from "./ArgumentsCollection";
 import { LintRunner } from "./LintRunner";
 
@@ -23,7 +18,7 @@ function getInputFilesList(filePath): string[] {
         .toString()
         .replace(/\r/g, "")
         .split("\n")
-        .filter(file => file);
+        .filter(file => !!file);
 }
 
 /**

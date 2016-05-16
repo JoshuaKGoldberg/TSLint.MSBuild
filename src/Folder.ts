@@ -1,12 +1,12 @@
-/// <reference path="../typings/main/ambient/node/index.d.ts" />
+/// <reference path="../typings/main.d.ts" />
+/// <reference path="./WaitLock.ts" />
 
-const fs = require("fs");
-const path = require("path");
-
+import * as fs from "fs";
+import * as path from "path";
 import { WaitLock } from "./WaitLock";
 
 /**
- * A representation of a directory with files and optionally a tsconfig.json.
+ * A representation of a directory with files and optionally a tslint.json.
  */
 export class Folder {
     /**
@@ -20,12 +20,12 @@ export class Folder {
     private filePaths: string[] = [];
 
     /**
-     * TSLint configuration for this folder, if it exists.
+     * Rules list for this folder, if it exists.
      */
-    private tsLintConfig: any;
+    private rules: any;
 
     /**
-     * Waiter for loading the tslint.json configuration. 
+     * Waiter for loading the tslint.json rules 
      */
     private loadWaiter: WaitLock = new WaitLock();
 
@@ -53,19 +53,19 @@ export class Folder {
     }
 
     /**
-     * @returns TSLint configuration for this folder, if it exists.
+     * @returns Rules list for this folder, if it exists.
      */
-    public getTSLintConfig(): any {
-        return this.tsLintConfig;
+    public getRules(): any {
+        return this.rules;
     }
 
     /**
-     * Sets the TSLint configuration for this folder.
+     * Sets the rules list for this folder.
      * 
-     * @param tsconfig   A new TSLint configuration for this folder.
+     * @param rules   A new rules lits for this folder.
      */
-    public setTSLintConfig(tsconfig: any): any {
-        this.tsLintConfig = tsconfig;
+    public setRules(rules: any): any {
+        this.rules = rules;
         this.loadWaiter.markActionCompletion();
     }
 
@@ -83,30 +83,27 @@ export class Folder {
      * 
      * @returns A Promise for whether a tslint.json was found.
      */
-    public loadTSLintConfig(): Promise<boolean> {
+    public loadRules(): Promise<boolean> {
         this.loadWaiter.markActionStart();
 
         return new Promise(resolve => {
             fs.readFile(path.join(this.path, "tslint.json"), (error, result) => {
                 if (error) {
-                    this.setTSLintConfig(undefined);
+                    this.setRules(undefined);
                     resolve(false);
                     return;
                 }
 
-                this.setTSLintConfig({
-                    formatter: "json",
-                    configuration: this.sanitizeFileContents(result)
-                });
+                this.setRules(this.sanitizeFileContents(result));
                 resolve(true);
             });
         });
     }
 
     /**
-     * Waits for this folder to load its tsconfig.json.
+     * Waits for this folder to load its tslint.json.
      * 
-     * @returns A Promise for this folder to load its tsconfig.json.
+     * @returns A Promise for this folder to load its tslint.json.
      */
     public waitForTSLint(): Promise<Folder> {
         return new Promise(resolve => {

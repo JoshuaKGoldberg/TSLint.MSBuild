@@ -8,7 +8,8 @@ export class ArgumentsCollection {
     private static valueSetters: { [i: string]: (value: string) => void } = {
         "exclude": ArgumentsCollection.prototype.setExclude,
         "files-root-dir": ArgumentsCollection.prototype.setFilesRootDir,
-        "file-list-file": ArgumentsCollection.prototype.setFileListFile
+        "file-list-file": ArgumentsCollection.prototype.setFileListFile,
+        "rules-directory": ArgumentsCollection.prototype.setRulesDirectories
     };
 
     /**
@@ -31,6 +32,13 @@ export class ArgumentsCollection {
      * @alias file-list-file
      */
     private fileListFile: string;
+
+    /**
+     * Path(s) to where rules are stored. 
+     * 
+     * @alias rules-directory
+     */
+    private rulesDirectories: string[];
 
     /**
      * Initializes a new instance of the ArgumentsCollection class.
@@ -73,6 +81,13 @@ export class ArgumentsCollection {
     }
 
     /**
+     * @returns The RulesDirectory argument.
+     */
+    public getRulesDirectories(): string[] {
+        return this.rulesDirectories;
+    }
+
+    /**
      * Sets the FilesRootDir argument.
      * 
      * @param value   A new FilesRootDir value.
@@ -97,5 +112,14 @@ export class ArgumentsCollection {
      */
     private setExclude(value: string): void {
         this.exclude = new RegExp(value || "^$", "i");
+    }
+
+    /**
+     * Sets the Exclude argument.
+     * 
+     * @param value   A new Exclude value.
+     */
+    private setRulesDirectories(value: string): void {
+        this.rulesDirectories = value.split(",");
     }
 }
