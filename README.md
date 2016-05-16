@@ -1,6 +1,6 @@
 # TSLint for MSBuild
 
-[![NuGet](https://img.shields.io/nuget/v/Nuget.Core.svg?maxAge=2592000)]()
+[![NuGet Version and Downloads count](https://buildstats.info/nuget/TSLint.MSBuild)](https://www.nuget.org/packages/TSLint.MSBuild) 
 
 An MSBuild target for linting TypeScript code using [TSLint](https://github.com/palantir/tslint). Get it at [nuget.org](https://www.nuget.org/packages/TSLint.MSBuild/).
 
