@@ -32,7 +32,7 @@ function formatOutput(lintError: string | any): string {
         return lintError;
     }
 
-    return lintError.name.replace("/", "\\")
+    return lintError.name.replace(/\//g, "\\")
         + `(${(lintError.startPosition.line + 1)},${(lintError.startPosition.character + 1)})`
         + `: error tslint-${lintError.ruleName}`
         + `: TSLint failure: ${lintError.failure}.`;
