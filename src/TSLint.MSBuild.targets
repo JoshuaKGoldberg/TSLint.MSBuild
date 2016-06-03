@@ -7,7 +7,7 @@
 
   <Target 
     AfterTargets="CompileTypeScript"
-    Condition="'@(TypeScriptCompile)' != ''"
+    Condition="'@(TypeScriptCompile)' != '' and '$(BuildingProject)' == 'true'"
     Name="TSLint">
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
