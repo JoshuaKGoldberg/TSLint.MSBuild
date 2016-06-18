@@ -43,18 +43,14 @@ function formatOutput(lintError: string | any): string {
     const rootDirectory: string = argumentsCollection.getFilesRootDir();
     const summaryFilePath: string = argumentsCollection.getFileListFile();
     const filePaths: string[] = getInputFilesList(summaryFilePath);
-    const filePathsIncluded: string[] = filePaths.filter(
-            filePath => !argumentsCollection.getExclude().test(filePath));
-    const runner = new LintRunner(argumentsCollection);
+    const runner = new LintRunner(argumentsCollection, filePaths);
 
-    console.log(`Running TSLint on ${filePathsIncluded.length} of ${filePaths.length} file(s) (excluding ${filePaths.length - filePathsIncluded.length}).`);
+    console.log(`Running TSLint on ${filePaths.length} file(s).`);
 
-    runner
-        .addFilePaths(filePathsIncluded)
-        .then(() => runner.runTSLint())
+    runner.runTSLint()
         .then(lintErrors => {
             if (lintErrors.length === 0) {
-                console.log(`0 errors found in ${filePathsIncluded.length} file(s).`);
+                console.log(`0 errors found in ${filePaths.length} file(s).`);
                 return;
             }
 
@@ -63,7 +59,7 @@ function formatOutput(lintError: string | any): string {
                 .join("\n");
 
             console.error(lintErrorsFormatted);
-            console.log(`${lintErrors.length} error(s) found in ${filePathsIncluded.length} file(s).`);
+            console.log(`${lintErrors.length} error(s) found in ${filePaths.length} file(s).`);
         })
         .catch(error => {
             console.error("Error running TSLint!");

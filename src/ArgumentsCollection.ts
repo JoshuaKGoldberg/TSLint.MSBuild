@@ -17,7 +17,7 @@ export class ArgumentsCollection {
      * 
      * @alias exclude
      */
-    private exclude: RegExp;
+    private exclude: string;
 
     /**
      * A root directory to work within.
@@ -76,7 +76,7 @@ export class ArgumentsCollection {
     /**
      * @returns The Exclude argument.
      */
-    public getExclude(): RegExp {
+    public getExclude(): string {
         return this.exclude;
     }
 
@@ -92,7 +92,7 @@ export class ArgumentsCollection {
      * 
      * @param value   A new FilesRootDir value.
      */
-    private setFilesRootDir(value: string): void {
+    public setFilesRootDir(value: string): void {
         this.filesRootDir = value;
     }
 
@@ -101,7 +101,7 @@ export class ArgumentsCollection {
      * 
      * @param value   A new FileListFile value.
      */
-    private setFileListFile(value: string): void {
+    public setFileListFile(value: string): void {
         this.fileListFile = value;
     }
 
@@ -110,8 +110,8 @@ export class ArgumentsCollection {
      * 
      * @param value   A new Exclude value.
      */
-    private setExclude(value: string): void {
-        this.exclude = new RegExp(value || "^$", "i");
+    public setExclude(value: string): void {
+        this.exclude = value;
     }
 
     /**
@@ -119,7 +119,26 @@ export class ArgumentsCollection {
      * 
      * @param value   A new Exclude value.
      */
-    private setRulesDirectories(value: string): void {
+    public setRulesDirectories(value: string): void {
         this.rulesDirectories = value.split(",");
+    }
+
+    /**
+     * Generates command-line arguments for the TSLint CLI.
+     * 
+     * @returns Arguments formatted for the CLI.
+     */
+    public generateSpawnArgs(): string[] {
+        const args: string[] = [];
+
+        if (this.exclude) {
+            args.push("--exclude", this.exclude);
+        }
+
+        if (this.rulesDirectories) {
+            args.push("--rules-dir", this.rulesDirectories.join(" "));
+        }
+
+        return args;
     }
 }
