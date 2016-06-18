@@ -8,11 +8,8 @@
     },
     "files": [
         "src/ArgumentsCollection.ts",
-        "src/Folder.ts",
-        "src/FolderCollection.ts",
         "src/index.ts",
         "src/LintRunner.ts",
-        "src/TSLintSearcher.ts",
-        "src/WaitLock.ts"
+        "src/TSLintSearcher.ts"
     ]
 }

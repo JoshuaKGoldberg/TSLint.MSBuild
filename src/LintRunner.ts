@@ -32,7 +32,7 @@ export class LintRunner {
     constructor(argumentsCollection: ArgumentsCollection, filePaths: string[]) {
         this.argumentsCollection = argumentsCollection;
         this.filePaths = filePaths;
-        this.pathToLinter = new TSLintSearcher().resolve() + "/lib/tslint-cli.js";
+        this.pathToLinter = new TSLintSearcher().resolve();
     }
 
     /**
@@ -41,38 +41,29 @@ export class LintRunner {
      * @returns A promise for TSLint errors, in alphabetical order of file path.
      */
     public runTSLint(): Promise<string[]> {
-        const linter: ChildProcess = spawn(this.pathToLinter, this.argumentsCollection.generateSpawnArgs());
+        const linter: ChildProcess = spawn(
+            "node",
+            [
+                this.pathToLinter,
+                ...this.argumentsCollection.toSpawnArgs(),
+                "--format",
+                "msbuild",
+                ...this.filePaths
+            ]);
         const errors: string[] = [];
 
-        return new Promise((resolve, reject) => {
-            linter.stdout.on("data", (data) => {
-                console.log("stdout data", data);
+        return new Promise((resolve: (errors: string[]) => void, reject: (error: string) => void): void => {
+            linter.stdout.on("data", (data: Buffer): void => {
+                errors.push(...data.toString().trim().replace(/\\r/g, "").split("\n"));
             });
 
-            linter.stderr.on("data", (data) => {
-                console.log("stderr data", data);
+            linter.stderr.on("data", (data: Buffer): void => {
+                reject(data.toString());
             });
 
-            linter.on("close", (code: number) => {
-                console.log(`child process exited with code ${code}`);
-
-                // Definitely an area of work to do.
-                resolve(data);
+            linter.on("close", (): void => {
+                resolve(errors);
             });
-        });
-    }
-
-    /**
-     * Reports a failure message to a parent Promise chain.
-     * 
-     * @param type   The type of item that failed.
-     * @param path   The path to the failed item.
-     * @param error   The thrown error.
-     * @returns A Promise for a failure message.
-     */
-    private promiseFailure(type: "file" | "folder", path: string, error: Error): Promise<string[]> {
-        return new Promise(resolve => {
-            resolve([`Could not lint ${type} '${path}': '${error.message}'`]);
         });
     }
 }

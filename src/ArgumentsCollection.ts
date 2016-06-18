@@ -126,9 +126,9 @@ export class ArgumentsCollection {
     /**
      * Generates command-line arguments for the TSLint CLI.
      * 
-     * @returns Arguments formatted for the CLI.
+     * @returns Arguments formatted for the TSLint CLI.
      */
-    public generateSpawnArgs(): string[] {
+    public toSpawnArgs(): string[] {
         const args: string[] = [];
 
         if (this.exclude) {

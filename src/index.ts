@@ -21,23 +21,6 @@ function getInputFilesList(filePath): string[] {
         .filter(file => !!file);
 }
 
-/**
- * Formats a TSLint error for display in Visual Studio.
- * 
- * @param lintError   Either a TSLint violation POJO or an error String.
- * @todo Use tslint.d.ts for a type definition.
- */
-function formatOutput(lintError: string | any): string {
-    if (typeof lintError === "string") {
-        return lintError;
-    }
-
-    return lintError.name.replace(/\//g, "\\")
-        + `(${(lintError.startPosition.line + 1)},${(lintError.startPosition.character + 1)})`
-        + `: error tslint-${lintError.ruleName}`
-        + `: TSLint failure: ${lintError.failure}.`;
-}
-
 (() => {
     const argumentsCollection: ArgumentsCollection = new ArgumentsCollection(process.argv.slice(2));
     const rootDirectory: string = argumentsCollection.getFilesRootDir();
@@ -54,11 +37,10 @@ function formatOutput(lintError: string | any): string {
                 return;
             }
 
-            const lintErrorsFormatted = lintErrors
-                .map(lintError => formatOutput(lintError))
-                .join("\n");
+            if (lintErrors.length !== 0) {
+                console.error(lintErrors);
+            }
 
-            console.error(lintErrorsFormatted);
             console.log(`${lintErrors.length} error(s) found in ${filePaths.length} file(s).`);
         })
         .catch(error => {

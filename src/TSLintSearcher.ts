@@ -49,14 +49,14 @@ export class TSLintSearcher {
      * @returns The complete path to the TSLint package.
      */
     public resolve(): string {
-        const result: string = path.resolve(
+        const packagePath: string = path.resolve(
             this.packagesDirectory,
             this.tsLintPackage,
             pathSuffix);
+        const cliPath = path.join(packagePath, "lib", "tslint-cli.js");
+        console.log(`Resolved TSLint CLI to '${cliPath}'.`);
 
-        console.log(`Resolved TSLint package to '${result}'.`);
-
-        return result;
+        return cliPath;
     }
 
     /**
