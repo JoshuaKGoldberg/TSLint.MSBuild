@@ -40,8 +40,8 @@ export class LintRunner {
      * 
      * @returns A promise for TSLint errors, in alphabetical order of file path.
      */
-    public runTSLint(): Promise<string[]> {
-        const linter: ChildProcess = spawn(
+    public runTSLint(): Promise<string> {
+        const linter: ChildProcess = this.runSpawn(
             "node",
             [
                 this.pathToLinter,
@@ -50,20 +50,36 @@ export class LintRunner {
                 "msbuild",
                 ...this.filePaths
             ]);
-        const errors: string[] = [];
+        let errors: string = "";
 
-        return new Promise((resolve: (errors: string[]) => void, reject: (error: string) => void): void => {
+        return new Promise((resolve: (errors: string) => void, reject: (error: string) => void): void => {
             linter.stdout.on("data", (data: Buffer): void => {
-                errors.push(...data.toString().trim().replace(/\\r/g, "").split("\n"));
+                errors += data.toString();
             });
 
             linter.stderr.on("data", (data: Buffer): void => {
                 reject(data.toString());
             });
 
+            linter.on("error", (error: any): void => {
+                reject(`Error: ${error}`);
+            });
+
             linter.on("close", (): void => {
                 resolve(errors);
             });
         });
+    }
+
+    /**
+     * Wrapper around child_process.spawn to log the command and args.
+     * 
+     * @param command   Command for child_process.spawn.
+     * @param args   Arguments for the command.
+     * @returns A running ChildProcess.
+     */
+    private runSpawn(command: string, args: string[]): ChildProcess {
+        console.log(`Spawning '${command} ${args.join(" ")}'...`);
+        return spawn(command, args);
     }
 }

@@ -32,16 +32,13 @@ function getInputFilesList(filePath): string[] {
 
     runner.runTSLint()
         .then(lintErrors => {
-            if (lintErrors.length === 0) {
-                console.log(`0 errors found in ${filePaths.length} file(s).`);
-                return;
-            }
+            const numErrors = lintErrors.match(/\n/g).length;
 
-            if (lintErrors.length !== 0) {
+            if (numErrors !== 0) {
                 console.error(lintErrors);
             }
 
-            console.log(`${lintErrors.length} error(s) found in ${filePaths.length} file(s).`);
+            console.log(`${numErrors} error(s) found in ${filePaths.length} file(s).`);
         })
         .catch(error => {
             console.error("Error running TSLint!");
