@@ -42,3 +42,9 @@ typings install
 ```
 
 Run `grunt` to build.
+
+### 0.3.X to 0.4.X
+
+Versions 0.3.X and below manually call TSLint on individual folders, whereas 0.4.X defers to the TSLint CLI.
+
+File a [bug report](https://github.com/JoshuaKGoldberg/TSLint.MSBuild/issues) if upgrading causes any issues.
