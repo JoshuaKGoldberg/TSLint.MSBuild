@@ -47,11 +47,12 @@ export class ArgumentsCollection {
     private collected: ICollected = {};
 
     /**
-     * Initializes a new instance of the ArgumentsCollection class.
+     * Collects arguments from MSBuild input.
      * 
      * @param inputs   Raw command-line input.
+     * @returns this
      */
-    constructor(inputs: string[]) {
+    public collectInputs(inputs: string[]): this {
         for (let i: number = 0; i < inputs.length; i += 2) {
             const key = inputs[i];
             const value = inputs[i + 1];
@@ -60,9 +61,23 @@ export class ArgumentsCollection {
                 throw new Error(`Unknown TSLint.MSBuild argument: '${inputs[i]}' ('${value}')`);
             }
 
-            console.log(`Setting '${key}' to '${value}'.`);
             this.collected[key] = value;
         }
+
+        return this;
+    }
+
+    /**
+     * Logs the collected arguments.
+     * 
+     * @returns this
+     */
+    public logCollection(): this {
+        for (const key in this.collected) {
+            console.log(`Setting '${key}' to '${this.collected[key]}'.`);
+        }
+
+        return this;
     }
 
     /**

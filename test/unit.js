@@ -2,6 +2,10 @@ const tests = {
     TSLintSearcher: [
         "folderIsTSLint",
         "versionSorter"
+    ],
+    ArgumentsCollection: [
+        "collectInputs",
+        "toSpawnArgs"
     ]
 };
 

@@ -22,7 +22,9 @@ function getInputFilesList(filePath): string[] {
 }
 
 (() => {
-    const argumentsCollection: ArgumentsCollection = new ArgumentsCollection(process.argv.slice(2));
+    const argumentsCollection: ArgumentsCollection = new ArgumentsCollection()
+        .collectInputs(process.argv.slice(2))
+        .logCollection();
     const rootDirectory: string = argumentsCollection.getFilesRootDir();
     const summaryFilePath: string = argumentsCollection.getFileListFile();
     const filePaths: string[] = getInputFilesList(summaryFilePath);
