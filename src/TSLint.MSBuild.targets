@@ -35,7 +35,7 @@
 
     <!-- Run TSLint via the runner -->
     <Exec 
-      Command="&quot;$(TSLintNodeExe)&quot; --harmony --harmony_modules &quot;$(TSLintRunnerScript)&quot; -exclude &quot;$(TSLintExclude)&quot; -files-root-dir &quot;$(TSLintFilesRootDir)&quot; -file-list-file &quot;$(TSLintFileListFile)&quot; -rules-directory &quot;$(TSLintRulesDirectory)&quot;"
+      Command="&quot;$(TSLintNodeExe)&quot; --harmony --harmony_modules &quot;$(TSLintRunnerScript)&quot; --exclude &quot;$(TSLintExclude)&quot; --file-list-file &quot;$(TSLintFileListFile)&quot; --files-root-dir &quot;$(TSLintFilesRootDir)&quot; --rules-directory &quot;$(TSLintRulesDirectory)&quot;"
       IgnoreExitCode="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>

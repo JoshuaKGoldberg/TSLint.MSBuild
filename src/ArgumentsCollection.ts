@@ -1,44 +1,50 @@
 /**
+ * Storage of collected arguments.
+ */
+interface ICollected {
+    /**
+     * A glob path to exclude from linting.
+     */
+    "--exclude"?: string;
+
+    /**
+     * Path to the file list file.
+     */
+    "--file-list-file"?: string;
+
+    /**
+     * A root directory to work within.
+     */
+    "--files-root-dir"?: string;
+
+    /**
+     * Any directories for user-created rules.
+     */
+    "--rules-directory"?: string;
+}
+
+/**
  * A parser and storer for command-line arguments to TSLint.MSBuild.
  */
 export class ArgumentsCollection {
     /**
-     * Value setters for arguments, keyed by alias.
+     * Whitelist of allowed keys from the .targets file.
      */
-    private static valueSetters: { [i: string]: (value: string) => void } = {
-        "exclude": ArgumentsCollection.prototype.setExclude,
-        "files-root-dir": ArgumentsCollection.prototype.setFilesRootDir,
-        "file-list-file": ArgumentsCollection.prototype.setFileListFile,
-        "rules-directory": ArgumentsCollection.prototype.setRulesDirectories
-    };
+    private static allowedKeys: Set<string> = new Set<string>([
+        "--file-list-file", "--files-root-dir", "--exclude", "--rules-directory"
+    ]);
 
     /**
-     * A glob path to exclude from linting.
-     * 
-     * @alias exclude
+     * Keys to pass to the TSLint CLI.
      */
-    private exclude: string;
+    private static cliKeys: Set<string> = new Set<string>([
+        "--exclude", "--rules-directory"
+    ]);
 
     /**
-     * A root directory to work within.
-     * 
-     * @alias files-root-dir
+     * Arguments from MSBuild.
      */
-    private filesRootDir: string;
-
-    /**
-     * The path to the file listing files to be linted.
-     * 
-     * @alias file-list-file
-     */
-    private fileListFile: string;
-
-    /**
-     * Path(s) to where rules are stored. 
-     * 
-     * @alias rules-directory
-     */
-    private rulesDirectories: string[];
+    private collected: ICollected = {};
 
     /**
      * Initializes a new instance of the ArgumentsCollection class.
@@ -47,80 +53,30 @@ export class ArgumentsCollection {
      */
     constructor(inputs: string[]) {
         for (let i: number = 0; i < inputs.length; i += 2) {
-            const alias = inputs[i].replace("-", "");
+            const key = inputs[i];
             const value = inputs[i + 1];
 
-            if (!ArgumentsCollection.valueSetters.hasOwnProperty(alias)) {
-                throw new Error(`Unknown TSLint.MSBuild argument: '${inputs[i]}' '${value}'`);
+            if (!ArgumentsCollection.allowedKeys.has(key)) {
+                throw new Error(`Unknown TSLint.MSBuild argument: '${inputs[i]}' ('${value}')`);
             }
 
-            console.log(`Setting '${alias}' to '${value}'.`);
-            ArgumentsCollection.valueSetters[alias].call(this, value);
+            console.log(`Setting '${key}' to '${value}'.`);
+            this.collected[key] = value;
         }
     }
 
     /**
-     * @returns The FilesRootDir argument.
+     * @returns The root directory to work within.
      */
     public getFilesRootDir(): string {
-        return this.filesRootDir;
+        return this.collected["--files-root-dir"];
     }
 
     /**
-     * @returns The FileListFile argument.
+     * @returns The path to the file list file.
      */
     public getFileListFile(): string {
-        return this.fileListFile;
-    }
-
-    /**
-     * @returns The Exclude argument.
-     */
-    public getExclude(): string {
-        return this.exclude;
-    }
-
-    /**
-     * @returns The RulesDirectory argument.
-     */
-    public getRulesDirectories(): string[] {
-        return this.rulesDirectories;
-    }
-
-    /**
-     * Sets the FilesRootDir argument.
-     * 
-     * @param value   A new FilesRootDir value.
-     */
-    public setFilesRootDir(value: string): void {
-        this.filesRootDir = value;
-    }
-
-    /**
-     * Sets the FileListFile argument.
-     * 
-     * @param value   A new FileListFile value.
-     */
-    public setFileListFile(value: string): void {
-        this.fileListFile = value;
-    }
-
-    /**
-     * Sets the Exclude argument.
-     * 
-     * @param value   A new Exclude value.
-     */
-    public setExclude(value: string): void {
-        this.exclude = value;
-    }
-
-    /**
-     * Sets the Exclude argument.
-     * 
-     * @param value   A new Exclude value.
-     */
-    public setRulesDirectories(value: string): void {
-        this.rulesDirectories = value.split(",");
+        return this.collected["--file-list-file"];
     }
 
     /**
@@ -131,12 +87,10 @@ export class ArgumentsCollection {
     public toSpawnArgs(): string[] {
         const args: string[] = [];
 
-        if (this.exclude) {
-            args.push("--exclude", this.exclude);
-        }
-
-        if (this.rulesDirectories) {
-            args.push("--rules-dir", this.rulesDirectories.join(" "));
+        for (const key of ArgumentsCollection.cliKeys) {
+            if (this.collected.hasOwnProperty(key)) {
+                args.push(key, this.collected[key]);
+            }
         }
 
         return args;
