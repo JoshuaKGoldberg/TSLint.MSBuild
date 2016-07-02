@@ -5,6 +5,7 @@ console.log("Starting TSLint runner.");
 import * as fs from "fs";
 import * as path from "path";
 import { ArgumentsCollection } from "./ArgumentsCollection";
+import { ErrorsPrinter } from "./ErrorsPrinter";
 import { LintRunner } from "./LintRunner";
 
 /**
@@ -33,14 +34,9 @@ function getInputFilesList(filePath): string[] {
     console.log(`Running TSLint on ${filePaths.length} file(s).`);
 
     runner.runTSLint()
-        .then(lintErrors => {
-            const numErrors = lintErrors.match(/\n/g).length;
-
-            if (numErrors !== 0) {
-                console.error(lintErrors);
-            }
-
-            console.log(`${numErrors} error(s) found in ${filePaths.length} file(s).`);
+        .then((lintErrors: string[]): void => {
+            new ErrorsPrinter(argumentsCollection.getErrorSeverity()).print(lintErrors);
+            console.log(`${lintErrors.length} error(s) found in ${filePaths.length} file(s).`);
         })
         .catch(error => {
             console.error("Error running TSLint!");

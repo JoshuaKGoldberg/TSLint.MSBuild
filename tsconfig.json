@@ -8,6 +8,7 @@
     },
     "files": [
         "src/ArgumentsCollection.ts",
+        "src/ErrorsPrinter.ts",
         "src/index.ts",
         "src/LintRunner.ts",
         "src/TSLintSearcher.ts"

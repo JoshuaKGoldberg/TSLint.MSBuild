@@ -40,7 +40,7 @@ export class LintRunner {
      * 
      * @returns A promise for TSLint errors, in alphabetical order of file path.
      */
-    public runTSLint(): Promise<string> {
+    public runTSLint(): Promise<string[]> {
         const linter: ChildProcess = this.runSpawn(
             "node",
             [
@@ -50,11 +50,16 @@ export class LintRunner {
                 "msbuild",
                 ...this.filePaths
             ]);
-        let errors: string = "";
+        let errors: string[] = [];
 
-        return new Promise((resolve: (errors: string) => void, reject: (error: string) => void): void => {
+        return new Promise((resolve: (errors: string[]) => void, reject: (error: string) => void): void => {
             linter.stdout.on("data", (data: Buffer): void => {
-                errors += data.toString();
+                errors.push(
+                    ...data
+                        .toString()
+                        .replace(/\r/g, "")
+                        .split(/\n/g)
+                        .filter((error: string): boolean => !!error));
             });
 
             linter.stderr.on("data", (data: Buffer): void => {

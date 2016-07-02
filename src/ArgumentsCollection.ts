@@ -8,6 +8,11 @@ interface ICollected {
     "--config"?: string;
 
     /**
+     * Override for MSBuild error severity level.
+     */
+    "--error-severity"?: "error" | "warning";
+
+    /**
      * A glob path to exclude from linting.
      */
     "--exclude"?: string;
@@ -36,7 +41,7 @@ export class ArgumentsCollection {
      * Whitelist of allowed keys from the .targets file.
      */
     private static allowedKeys: Set<string> = new Set<string>([
-        "--config", "--exclude", "--file-list-file", "--files-root-dir", "--rules-directory"
+        "--config", "--error-severity", "--exclude", "--file-list-file", "--files-root-dir", "--rules-directory"
     ]);
 
     /**
@@ -90,6 +95,13 @@ export class ArgumentsCollection {
      */
     public getConfig(): string {
         return this.collected["--config"];
+    }
+
+    /**
+     * @returns The override for MSBuild error severity level.
+     */
+    public getErrorSeverity(): "error" | "warning" {
+        return this.collected["--error-severity"];
     }
 
     /**

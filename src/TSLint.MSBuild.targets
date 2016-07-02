@@ -13,6 +13,7 @@
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
       <TSLintConfig Condition="'$(TSLintConfig)' == ''"></TSLintConfig>
       <TSLintDeleteFileListFile Condition="'$(TSLintDeleteFileListFile)' == ''">true</TSLintDeleteFileListFile>
+      <TSLintErrorSeverity Condition="'$(TSLintErrorSeverity)' == ''"></TSLintErrorSeverity>
       <TSLintExclude Condition="'$(TSLintExclude)' == ''"></TSLintExclude>
       <TSLintFilesRootDir Condition="'$(TSLintFilesRootDir)' == ''">$(MSBuildProjectDirectory)</TSLintFilesRootDir>
       <TSLintFileListDir Condition="'$(TSLintFileListDir)' == ''">$(IntermediateOutDir)</TSLintFileListDir>
@@ -36,7 +37,7 @@
 
     <!-- Run TSLint via the runner -->
     <Exec 
-      Command="&quot;$(TSLintNodeExe)&quot; --harmony --harmony_modules &quot;$(TSLintRunnerScript)&quot; --config &quot;$(TSLintConfig)&quot; --exclude &quot;$(TSLintExclude)&quot; --file-list-file &quot;$(TSLintFileListFile)&quot; --files-root-dir &quot;$(TSLintFilesRootDir)&quot; --rules-directory &quot;$(TSLintRulesDirectory)&quot;"
+      Command="&quot;$(TSLintNodeExe)&quot; --harmony --harmony_modules &quot;$(TSLintRunnerScript)&quot; --config &quot;$(TSLintConfig)&quot; --error-severity &quot;$(TSLintErrorSeverity)&quot; --exclude &quot;$(TSLintExclude)&quot; --file-list-file &quot;$(TSLintFileListFile)&quot; --files-root-dir &quot;$(TSLintFilesRootDir)&quot; --rules-directory &quot;$(TSLintRulesDirectory)&quot;"
       IgnoreExitCode="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>

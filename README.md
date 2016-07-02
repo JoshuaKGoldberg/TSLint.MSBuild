@@ -19,6 +19,7 @@ A .js runner file then takes in the path to that file list, scans for `tslint.js
 The following properties may be overidden via your targets:
 * **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
 * **TSLintConfig** - Path to a specific tslint.json. Defaults to blank, for any tslint.json on the path.
+* **TSLintErrorSeverity** - Optional MSBuild error severity override, as `"error"` or `"warning"`.
 * **TSLintDeleteFileListFile** - Whether to delete the file list file when done. Defaults to `true`.
 * **TSLintExclude** - Blob of matching file names to exclude. Defaults to none.
 * **TSLintFilesRootDir** - Root directory to work within. Defaults to `$(MSBuildProjectDirectory)`.
