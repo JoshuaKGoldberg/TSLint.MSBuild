@@ -35,8 +35,8 @@ function getInputFilesList(filePath): string[] {
 
     runner.runTSLint()
         .then((lintErrors: string[]): void => {
-            new ErrorsPrinter(argumentsCollection.getErrorSeverity()).print(lintErrors);
             console.log(`${lintErrors.length} error(s) found in ${filePaths.length} file(s).`);
+            new ErrorsPrinter(argumentsCollection.getErrorSeverity()).print(lintErrors);
         })
         .catch(error => {
             console.error("Error running TSLint!");
