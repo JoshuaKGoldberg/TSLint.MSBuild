@@ -16,18 +16,16 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for linting 
 At runtime, the list of .ts files from your build (`TypeScriptCompile`) is output to a temporary .txt file.
 A .js runner file then takes in the path to that file list, scans for `tslint.json` files, and runs TSLint on each .ts file.
 
-The following properties may be overidden via your targets:
+Overrideable PropertyGroups:
 * **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
 * **TSLintConfig** - Path to a specific tslint.json. Defaults to blank, for any tslint.json on the path.
-* **TSLintDeleteFileListFile** - Whether to delete the file list file when done. Defaults to `true`.
 * **TSLintErrorSeverity** - Optional MSBuild error severity override, as `"error"` or `"warning"`.
 * **TSLintExclude** - Blob of matching file names to exclude. Defaults to none.
 * **TSLintFilesRootDir** - Root directory to work within. Defaults to `$(MSBuildProjectDirectory)`.
-* **TSLintFileListDir** - Directory to put the file list in. Defaults to `$(IntermediateOutDir)`.
-* **TSLintFileListName** - Name of the file list file. Defaults to `TSLintFileList.txt-$(MSBuildProjectName)`.
 * **TSLintNodeExe**: Node executable to execute the runner script. Defaults to the `tools\node-6.1.0.exe` in the package. 
 * **TSLintRulesDirectory** - Comma-separated list of directories for user-created rules. Defaults to none.
-* **TSLintRunnerScript** - The .js file to take in `TSLintFileListFile`. Defaults to the `tools\runner.js` in the package.
+
+Overrideable ItemGroups:
 
 ### TSLint version
 
@@ -40,10 +38,29 @@ Run the following commands to initialize your environment:
 
 ```shell
 npm install
-typings install
 ```
 
-Run `grunt` to build.
+Run `gulp` to build.
+
+### 0.X to 1.X
+
+Crazy stuff happened.
+Everything's broken.
+Oh.
+
+#### Why?
+
+The original schema of TSLint.MSBuild requires multiple layers of processes calling each other, which can wreak havoc in complex managed build systems.
+
+1. MSBuild determines build settings and passes them to the JavaScript code
+2. JavaScript code determines the TSLint location and re-formulates arguments
+3. JavaScript code runs TSLint via a spawned process, captures its output, and re-logs it
+4. MSBuild captures the (re-logged TSLint ) JavaScript output and logs it 
+
+1.X unified all the logic into MSBuild, which resulted in significant performance gains, code simplification, and runtime stability. 
+
+1. MSBuild determines build settings and TSLint location
+2. MSBuild runs TSLint using the packaged Node executable, captures its output, and re-logs it
 
 ### 0.3.X to 0.4.X
 

@@ -1,12 +1,8 @@
 # Build tools
-.tscache
-src/.baseDir.ts
 node_modules
 nuget*.exe
-typings
 
 # Output
 dist
-src/**/*.js
 tools
 *.nupkg

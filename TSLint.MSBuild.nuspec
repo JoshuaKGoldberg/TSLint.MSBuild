@@ -13,16 +13,13 @@
     </description>
     <tags>tslint, msbuild</tags>
     <dependencies>
-      <dependency id="tslint" version="3.7.0" />
+      <dependency id="tslint" version="3.15.1" />
     </dependencies>
   </metadata>
   <files>
-    <file src="dist\TSLint.MSBuild.targets" target="build" />
-
-    <file src="dist\LICENSE.md" target="tools" />
-    <file src="dist\node-*.exe" target="tools" />
-    <file src="dist\package.json" target="tools" />
-    <file src="dist\README.md" target="tools" />
-    <file src="dist\*.js" target="tools" />
+    <file src="LICENSE.md" target="tools" />
+    <file src="README.md" target="tools" />
+    <file src="src\node-*.exe" target="tools" />
+    <file src="src\TSLint.MSBuild.targets" target="build" />
   </files>
 </package>
