@@ -4,6 +4,6 @@
     <Error
       Condition="'$(TSLintArgsExpected)' != '$(TSLintArgs)'"
       Text="Expected TSLintArgs to be '$(TSLintArgsExpected)', but got '$(TSLintArgs)'" />
-    <Message Text="$(CurrentTest): Passed." />
+    <Message Text="$(MSBuildProjectName): Passed." />
   </Target>
 </Project>
