@@ -2,6 +2,10 @@
 node_modules
 nuget*.exe
 
+# Tests
+test/**/bin/**
+test/**/obj/**
+
 # Output
 dist
 tools

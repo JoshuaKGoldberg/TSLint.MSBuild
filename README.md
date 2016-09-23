@@ -20,12 +20,11 @@ Overrideable PropertyGroups:
 * **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
 * **TSLintConfig** - Path to a specific tslint.json. Defaults to blank, for any tslint.json on the path.
 * **TSLintErrorSeverity** - Optional MSBuild error severity override, as `"error"` or `"warning"`.
-* **TSLintExclude** - Blob of matching file names to exclude. Defaults to none.
-* **TSLintFilesRootDir** - Root directory to work within. Defaults to `$(MSBuildProjectDirectory)`.
 * **TSLintNodeExe**: Node executable to execute the runner script. Defaults to the `tools\node-6.1.0.exe` in the package. 
-* **TSLintRulesDirectory** - Comma-separated list of directories for user-created rules. Defaults to none.
 
 Overrideable ItemGroups:
+* **TSLintExclude** - Globs of file names to exclude. Defaults to none.
+* **TSLintRulesDirectory** - Directories for user-created rules. Defaults to none.
 
 ### TSLint version
 

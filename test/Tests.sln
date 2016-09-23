@@ -1,0 +1,17 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config", "Config.csproj", "{Config-Guid}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exclude", "Exclude.csproj", "{Exclude-Guid}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{Config-Guid}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{Config-Guid}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{Exclude-Guid}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{Exclude-Guid}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal

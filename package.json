@@ -22,5 +22,9 @@
     "tslint": "^3.10.2",
     "typescript": "^1.8.9",
     "typings": "^0.7.3"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-msbuild": "^0.4.0"
   }
 }

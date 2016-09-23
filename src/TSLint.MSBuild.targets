@@ -10,6 +10,13 @@
     Condition="'@(TypeScriptCompile)' != '' and '$(BuildingProject)' == 'true'"
     Name="TSLint">
 
+    <!-- ItemGroup settings -->
+    <ItemGroup>
+      <TSLintExclude Include="@(TSLintExclude)" />
+      <TSLintFiles Include="@(TypeScriptCompile)" />
+      <TSLintRulesDirectory Include="@(TSLintRulesDirectory)" />
+    </ItemGroup>
+
     <!-- PropertyGroup settings -->
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
@@ -18,27 +25,29 @@
       <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)\..\tools\node-6.1.0.exe"))</TSLintNodeExe>
     </PropertyGroup>
 
-    <!-- ItemGroup settings -->
-    <ItemGroup>
-      <TSLintRulesDirectory Include="@(TSLintRulesDirectory)" />
-      <TSLintExclude Include="@(TSLintExclude)" />
-      <TSLintFile Include="@(TypeScriptCompile)" />
-    </ItemGroup>
-
     <!-- TODO: Find the TSLint package dir & .js thing -->
     <!-- -->
 
+    <!-- Build the TSLint arguments -->
+    <PropertyGroup>
+      <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude @(TSLintExclude, ' sup ')</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintFiles)' != ''">$(TSLintArgs) @(TSLintRulesDirectory)</TSLintArgs>
+    </PropertyGroup>
+    <Message Text="Sup '$(TSLintArgs)' from '@(TSLintExclude)'" />
+
     <!-- Run TSLint using the Node executable -->
-    <Exec 
+    <!--<Exec 
       Command="&quot;$(TSLintNodeExe)&quot; (todo: tslint script and settings)"
       IgnoreExitCode="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
+    </Exec>-->
 
     <!-- TODO: Filter on error severity -->
     <!-- -->
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
-    <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" />
+    <!-- <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" /> -->
   </Target>
 </Project>
