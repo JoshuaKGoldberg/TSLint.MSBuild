@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Ensures that if this file changes it forces a TypeScript rebuild -->
+  <PropertyGroup>
+    <TypeScriptAllProjects>$(TypeScriptAllProjects);$(MSBuildThisFileFullPath)</TypeScriptAllProjects>
+  </PropertyGroup>
+
+  <Target 
+    AfterTargets="CompileTypeScript"
+    Condition="'@(TypeScriptCompile)' != '' and '$(BuildingProject)' == 'true'"
+    Name="TSLint">
+
+    <!-- PropertyGroup settings -->
+    <PropertyGroup>
+      <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
+      <TSLintConfig Condition="'$(TSLintConfig)' == ''"></TSLintConfig>
+      <TSLintErrorSeverity Condition="'$(TSLintErrorSeverity)' == ''"></TSLintErrorSeverity>
+      <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)\..\tools\node-6.1.0.exe"))</TSLintNodeExe>
+    </PropertyGroup>
+
+    <!-- Grab the first matching TSLint CLI in a NuGet packages install -->
+    <ItemGroup Condition="'$(TSLintCli)' == ''">
+      <TSLintPotentialCli Include="$(SolutionDir)**\tslint.*.*.*\tools\node_modules\tslint\lib\tslint-cli.js" />
+    </ItemGroup>
+    <PropertyGroup Condition="'$(TSLintCli)' == ''">
+      <TSLintCliProperty>@(TSLintPotentialCli);</TSLintCliProperty>
+      <TSLintCli>$(TSLintCliProperty.Substring(0, $(TSLintCliProperty.IndexOf(';'))))</TSLintCli>
+    </PropertyGroup>
+
+    <!-- Build the TSLint arguments -->
+    <PropertyGroup>
+      <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude @(TSLintExclude, ' --exclude ')</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
+      <TSLintArgs Condition="'@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
+    </PropertyGroup>
+
+    <!-- Run TSLint using the Node executable -->
+    <Exec 
+      Command="&quot;$(TSLintNodeExe)&quot; $(TSLintCli) $(TSLintArgs)"
+      Condition="'$(TSLintDisabled)' != 'true'"
+      ConsoleToMsBuild="true"
+      IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TSLintOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
+    </Exec>
+
+    <!-- TODO: Filter on error severity -->
+    <!-- -->
+
+    <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
+    <!-- <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" /> -->
+  </Target>
+</Project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\src\build\TSLint.MSBuild.targets" />
+
+  <Target Name="Rebuild" />
+
+  <!-- Fake setup for the TypeScript build environment -->
+  <Target AfterTargets="Rebuild" Name="CompileTypeScript">
+    <ItemGroup>
+      <TypeScriptCompile Include="foo.ts" />
+      <TypeScriptCompile Include="bar.ts" />
+      <TypeScriptCompile Include="baz.ts" />
+      <TypeScriptCompile Include="qux.ts" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <BuildingProject>true</BuildingProject>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Fake properties for the TSLint task -->
+  <ItemGroup>
+    <TSLintExclude Include="foo.ts" />
+    <TSLintExclude Include="bar.ts" />
+    <TSLintRulesDirectory Include="rules/foo" />
+    <TSLintRulesDirectory Include="rules/bar" />
+  </ItemGroup>
+  <PropertyGroup>
+    <TSLintDisabled>true</TSLintDisabled>
+    <TSLintConfig>tslint.json</TSLintConfig>
+  </PropertyGroup>
+
+  <!-- Post-TSLint verification -->
+  <Target AfterTargets="TSLint" Name="Test">
+    <PropertyGroup>
+      <TSLintArgsExpected> --config tslint.json --exclude foo.ts --exclude bar.ts --rules-dir rules/foo --rules-dir rules/bar foo.ts bar.ts baz.ts qux.ts</TSLintArgsExpected>
+    </PropertyGroup>
+
+    <Error
+      Condition="'$(TSLintArgsExpected)' != '$(TSLintArgs)'"
+      Text="Expected TSLintArgs to be%0a'$(TSLintArgsExpected)'%0abut got%0a'$(TSLintArgs)'.." />
+
+    <Message
+      Condition="'$(TSLintArgsExpected)' == '$(TSLintArgs)'"
+      Importance="High"
+      Text="TSLintArgs passed." />
+  </Target>
+</Project>

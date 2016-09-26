@@ -16,15 +16,21 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for linting 
 At runtime, the list of .ts files from your build (`TypeScriptCompile`) is output to a temporary .txt file.
 A .js runner file then takes in the path to that file list, scans for `tslint.json` files, and runs TSLint on each .ts file.
 
-Overrideable PropertyGroups:
+Overrideable properties:
 * **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
 * **TSLintConfig** - Path to a specific tslint.json. Defaults to blank, for any tslint.json on the path.
+* **TSLintCli** - Path to a TSLint CLI to run with. Defaults to the highest-versioned TSLint version in the solution's `packages` directory.
+* **TSLintDisabled** - Whether to skip running TSLint. Defaults to false.
 * **TSLintErrorSeverity** - Optional MSBuild error severity override, as `"error"` or `"warning"`.
-* **TSLintNodeExe**: Node executable to execute the runner script. Defaults to the `tools\node-6.1.0.exe` in the package. 
+* **TSLintNodeExe**: Path to a Node executable to execute the runner script. Defaults to the `tools\node-6.1.0.exe` in the package. 
 
-Overrideable ItemGroups:
+Overrideable items:
 * **TSLintExclude** - Globs of file names to exclude. Defaults to none.
 * **TSLintRulesDirectory** - Directories for user-created rules. Defaults to none.
+
+Output Properties:
+* **TSLintOutput** - Console output of the TSLint CLI.
+* **TSLintErrorCode** Exit code of the TSLint CLI. 
 
 ### TSLint version
 

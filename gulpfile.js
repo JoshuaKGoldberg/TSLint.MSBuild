@@ -1,10 +1,14 @@
-var gulp = require("gulp");
-var msbuild = require("gulp-msbuild");
+const gulp = require("gulp");
+const merge = require("merge2");
+const msbuild = require("gulp-msbuild");
 
 gulp.task("test", () => {
-    return gulp.src(`./test/Tests.sln`)
-        .pipe(msbuild({
-            configuration: "Debug",
-            stdout: true
-        }));
+    const tests = ["TSLintArgs", "TSLintCli"]
+        .map(testName => gulp.src(`./test/${testName}/${testName}.sln`)
+            .pipe(msbuild({
+                configuration: "Debug",
+                stdout: true
+            })));
+
+    return merge(tests);
 });
