@@ -15,6 +15,11 @@
     </PropertyGroup>
   </Target>
 
+  <!-- Fake properties for the TSLint task -->
+  <PropertyGroup>
+    <TSLintCli>$(MSBuildThisFileDirectory)tslint-cli.js</TSLintCli>
+  </PropertyGroup>
+
   <!-- Post-TSLint verification -->
   <Target AfterTargets="TSLint" Name="Test">
     <PropertyGroup>
