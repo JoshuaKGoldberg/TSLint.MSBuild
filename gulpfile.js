@@ -1,14 +1,20 @@
 const gulp = require("gulp");
-const merge = require("merge2");
+const runSequence = require("run-sequence");
 const msbuild = require("gulp-msbuild");
 
-gulp.task("test", () => {
-    const tests = ["TSLintArgs", "TSLintCli"]
-        .map(testName => gulp.src(`./test/${testName}/${testName}.sln`)
+const tests = ["TSLintArgs", "TSLintCli", "TSLintOutput"];
+const testTasks = tests.map(testName => `test:${testName}`);
+
+tests.forEach(testName => {
+    gulp.task(`test:${testName}`, () => {
+        return gulp.src(`./test/${testName}/${testName}.sln`)
             .pipe(msbuild({
                 configuration: "Debug",
                 stdout: true
-            })));
-
-    return merge(tests);
+            }));
+    });
 });
+
+gulp.task("test", callback => runSequence(testTasks, callback));
+
+gulp.task("default", ["test"]);

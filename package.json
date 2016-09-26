@@ -26,6 +26,6 @@
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-msbuild": "^0.4.0",
-    "merge2": "^1.0.2"
+    "run-sequence": "^1.2.2"
   }
 }
