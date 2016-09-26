@@ -34,7 +34,7 @@ Output Properties:
 
 ### TSLint version
 
-The highest available TSLint version in your NuGet packages directory will be used. 
+The *first* available TSLint version in your NuGet packages directory will be used. 
 
 
 ## Development
@@ -52,6 +52,8 @@ Run `gulp` to build.
 Crazy stuff happened.
 Everything's broken.
 Oh.
+
+This no longer searches for the "highest" available TSLint version in the packages directory; instead, the first found in a file search is used.
 
 #### Why?
 

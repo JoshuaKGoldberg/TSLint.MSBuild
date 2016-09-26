@@ -1,5 +1,5 @@
 # Build tools
-node_modules
+/node_modules
 nuget*.exe
 
 # Tests
@@ -7,6 +7,5 @@ test/**/bin/**
 test/**/obj/**
 
 # Output
-dist
-tools
+/lib
 *.nupkg
