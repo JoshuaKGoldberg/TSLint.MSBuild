@@ -15,6 +15,6 @@ tests.forEach(testName => {
     });
 });
 
-gulp.task("test", callback => runSequence(testTasks, callback));
+gulp.task("test", callback => runSequence(...testTasks, callback));
 
 gulp.task("default", ["test"]);
