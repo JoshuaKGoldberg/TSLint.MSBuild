@@ -52,11 +52,19 @@
     <ItemGroup>
       <TSlintLinesRaw Include="$(TSLintOutputRaw.Split(';'))" />
     </ItemGroup>
-    <PropertyGroup>
-      <TSLintOutput>@(TSLintLinesRaw, '%0a')</TSLintOutput>
-    </PropertyGroup>
 
-    <!-- Todo: for each item, add error severity -->
+    <!-- If provided, add the severity levels -->
+    <ItemGroup Condition="'$(TSLintErrorSeverity)' != ''">
+      <TSLintLines Include="@(TSLintLinesRaw->Replace('): ', '): $(TSLintErrorSeverity): '))" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TSLintErrorSeverity)' == ''">
+      <TSLintLines Include="@(TSLintLinesRaw)" />
+    </ItemGroup>
+
+    <!-- Combine the linted lines back by endlines -->
+    <PropertyGroup>
+      <TSLintOutput>@(TSLintLines, '%0a')</TSLintOutput>
+    </PropertyGroup>
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
     <!-- <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" /> -->
