@@ -29,8 +29,10 @@
 
     <!-- Build the TSLint arguments -->
     <PropertyGroup>
+      <TSLintArgs></TSLintArgs>
       <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude @(TSLintExclude, ' --exclude ')</TSLintArgs>
+      <TSLintArgs>$(TSLintArgs) --format msbuild</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
       <TSLintArgs Condition="'@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
     </PropertyGroup>
@@ -41,12 +43,20 @@
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
       IgnoreExitCode="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="TSLintOutput" />
+      <Output TaskParameter="ConsoleOutput" PropertyName="TSLintOutputRaw" />
       <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
     </Exec>
 
-    <!-- TODO: Filter on error severity -->
-    <!-- -->
+    <!-- Convert TSLint output to an item for each line -->
+    <!-- Todo: don't split on ';' (why is that the separator?) -->
+    <ItemGroup>
+      <TSlintLinesRaw Include="$(TSLintOutputRaw.Split(';'))" />
+    </ItemGroup>
+    <PropertyGroup>
+      <TSLintOutput>@(TSLintLinesRaw, '%0a')</TSLintOutput>
+    </PropertyGroup>
+
+    <!-- Todo: for each item, add error severity -->
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
     <!-- <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" /> -->

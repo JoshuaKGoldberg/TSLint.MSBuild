@@ -33,7 +33,7 @@
   <!-- Post-TSLint verification -->
   <Target AfterTargets="TSLint" Name="Test">
     <PropertyGroup>
-      <TSLintArgsExpected> --config tslint.json --exclude foo.ts --exclude bar.ts --rules-dir rules/foo --rules-dir rules/bar foo.ts bar.ts baz.ts qux.ts</TSLintArgsExpected>
+      <TSLintArgsExpected> --config tslint.json --exclude foo.ts --exclude bar.ts --format msbuild --rules-dir rules/foo --rules-dir rules/bar foo.ts bar.ts baz.ts qux.ts</TSLintArgsExpected>
     </PropertyGroup>
 
     <Error
