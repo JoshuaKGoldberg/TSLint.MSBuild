@@ -67,6 +67,6 @@
     </PropertyGroup>
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
-    <!-- <Error Condition="'$(ErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" /> -->
+    <Error Condition="'$(TSLintErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" />
   </Target>
 </Project>
