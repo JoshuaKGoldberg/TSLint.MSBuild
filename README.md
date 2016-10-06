@@ -16,21 +16,107 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for linting 
 At runtime, the list of .ts files from your build (`TypeScriptCompile`) is output to a temporary .txt file.
 A .js runner file then takes in the path to that file list, scans for `tslint.json` files, and runs TSLint on each .ts file.
 
-Overrideable properties:
-* **TSLintBreakBuildOnError** -  Whether linting failures should break the build. Defaults to `false`.
-* **TSLintConfig** - Path to a specific tslint.json. Defaults to blank, for any tslint.json on the path.
-* **TSLintCli** - Path to a TSLint CLI to run with. Defaults to the highest-versioned TSLint version in the solution's `packages` directory.
-* **TSLintDisabled** - Whether to skip running TSLint. Defaults to false.
-* **TSLintErrorSeverity** - Optional MSBuild error severity override, as `"error"` or `"warning"`.
-* **TSLintNodeExe**: Path to a Node executable to execute the runner script. Defaults to the `tools\node-6.1.0.exe` in the package. 
+#### Overrideable Item Groups
 
-Overrideable items:
-* **TSLintExclude** - Globs of file names to exclude. Defaults to none.
-* **TSLintRulesDirectory** - Directories for user-created rules. Defaults to none.
+<table>
+    <thead>
+        <tr>
+            <td>Item</td>
+            <td>Description</td>
+            <td>Default</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><code>TSLintExclude</code></th>
+            <td>Globs of file names to exclude.</td>
+            <td><em>(blank)</em></td>
+        </tr>
+        <tr>
+            <th><code>TSLintRulesDirectory</code></th>
+            <td>Directories for user-created rules</td>
+            <td><em>(blank)</em></td>
+        </tr>
+    </tbody>
+</table>
 
-Output Properties:
-* **TSLintOutput** - Console output of the TSLint CLI.
-* **TSLintErrorCode** Exit code of the TSLint CLI. 
+#### Overrideable Properties
+
+<table>
+    <thead>
+        <tr>
+            <td>Property</td>
+            <td>Description</td>
+            <td>Default</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><code>TSLintBreakBuildOnError</code></th>
+            <td>Whether linting failures should break the build.</td>
+            <td><code>false</code></td>
+        </tr>
+        <tr>
+            <th><code>TSLintConfig</code></th>
+            <td>Path to a specific tslint.json.</td>
+            <td><em>(blank)</em></td>
+        </tr>
+        <tr>
+            <th><code>TSLintCli</code></th>
+            <td>Path to a TSLint CLI to run with.</td>
+            <td>The highest-versioned TSLint version in the solution's <code>packages</code> directory.</td>
+        </tr>
+        <tr>
+            <th><code>TSLintDisabled</code></th>
+            <td>Whether to skip running TSLint.</td>
+            <td><code>false</code></td>
+        </tr>
+        <tr>
+            <th><code>TSLintNodeExe</code></th>
+            <td>Path to a Node executable to execute the runner script.</td>
+            <td>The <code>tools\node-6.1.0.exe</code> in the package.</td>
+        </tr>
+        <tr>
+            <th><code>TSLintRunOutsideBuildingProject</code></th>
+            <td>Whether to run even if `BuildingProject` isn't `true`.</td>
+            <td><em>(blank)</em></td>
+        </tr>
+    </tbody>
+</table>
+
+#### Output Item Groups
+
+<table>
+    <thead>
+        <tr>
+            <td>Item Group</td>
+            <td>Description</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><code>TSLintOutput</code></th>
+            <td>Lines of console output form the TSLint CLI.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Output Properties
+
+<table>
+    <thead>
+        <tr>
+            <td>Item Name</td>
+            <td>Description</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><code>TSLintErrorCode</code></th>
+            <td>Exit code of the TSLint CLI.</td>
+        </tr>
+    </tbody>
+</table>
 
 ### TSLint version
 
@@ -49,11 +135,13 @@ Run `gulp` to build.
 
 ### 0.X to 1.X
 
-Crazy stuff happened.
-Everything's broken.
-Oh.
+0.X versions ran JavaScript logic to search for TSLint, run it, and wrap the output.
+This was slow (running two nested Node processes, with intermediary file names in text).
 
-This no longer searches for the "highest" available TSLint version in the packages directory; instead, the first found in a file search is used.
+1.X versions now are completely in a single MSBuild file.
+This is better for performance but has two downsides:
+* It no longer searches for the "highest" available TSLint version in the packages directory; instead, the first found in a file search is used.
+* The `TSLintErrorSeverity` flag is no longer supported (until TSLint adds support for error levels).
 
 #### Why?
 

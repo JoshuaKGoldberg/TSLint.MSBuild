@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const runSequence = require("run-sequence");
 const msbuild = require("gulp-msbuild");
 
-const tests = ["TSLintArgs", "TSLintCli", "TSLintErrorSeverity", "TSLintOutput"];
+const tests = ["TSLintArgs", "TSLintCli", "TSLintOutput"];
 const testTasks = tests.map(testName => `test:${testName}`);
 
 tests.forEach(testName => {

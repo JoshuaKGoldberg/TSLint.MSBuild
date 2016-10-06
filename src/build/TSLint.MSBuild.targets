@@ -7,7 +7,7 @@
 
   <Target 
     AfterTargets="CompileTypeScript"
-    Condition="'@(TypeScriptCompile)' != '' and '$(BuildingProject)' == 'true'"
+    Condition="'@(TypeScriptCompile)' != '' and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
     Name="TSLint">
 
     <!-- PropertyGroup settings -->
@@ -42,29 +42,11 @@
       Command="&quot;$(TSLintNodeExe)&quot; $(TSLintCli) $(TSLintArgs)"
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
+      EchoOff="true"
       IgnoreExitCode="true">
-      <Output TaskParameter="ConsoleOutput" PropertyName="TSLintOutputRaw" />
+      <Output TaskParameter="ConsoleOutput" ItemName="TSLintOutput" />
       <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
     </Exec>
-
-    <!-- Convert TSLint output to an item for each line -->
-    <!-- Todo: don't split on ';' (why is that the separator?) -->
-    <ItemGroup>
-      <TSlintLinesRaw Include="$(TSLintOutputRaw.Split(';'))" />
-    </ItemGroup>
-
-    <!-- If provided, add the severity levels -->
-    <ItemGroup Condition="'$(TSLintErrorSeverity)' != ''">
-      <TSLintLines Include="@(TSLintLinesRaw->Replace('): ', '): $(TSLintErrorSeverity): '))" />
-    </ItemGroup>
-    <ItemGroup Condition="'$(TSLintErrorSeverity)' == ''">
-      <TSLintLines Include="@(TSLintLinesRaw)" />
-    </ItemGroup>
-
-    <!-- Combine the linted lines back by endlines -->
-    <PropertyGroup>
-      <TSLintOutput>@(TSLintLines, '%0a')</TSLintOutput>
-    </PropertyGroup>
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
     <Error Condition="'$(TSLintErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" />

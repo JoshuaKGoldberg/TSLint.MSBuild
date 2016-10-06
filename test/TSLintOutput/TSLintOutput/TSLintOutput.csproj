@@ -27,15 +27,16 @@
       <TSLintOutputsExpected Include="1>c:\path to file\foo.ts(45,6): another complaint" />
     </ItemGroup>
     <PropertyGroup>
+      <TSLintOutputActual>@(TSLintOutput, '%0a')</TSLintOutputActual>
       <TSLintOutputExpected>@(TSLintOutputsExpected, '%0a')</TSLintOutputExpected>
     </PropertyGroup>
 
     <Error
-      Condition="'$(TSLintOutputExpected)' != '$(TSLintOutput)'"
-      Text="Expected TSLintOutput to be%0a'$(TSLintOutputExpected)'%0abut got%0a'$(TSLintOutput)'.." />
+      Condition="'$(TSLintOutputExpected)' != '$(TSLintOutputActual)'"
+      Text="Expected TSLintOutput to be%0a'$(TSLintOutputExpected)'%0abut got%0a'$(TSLintOutputActual)'.." />
 
     <Message
-      Condition="'$(TSLintOutputExpected)' == '$(TSLintOutput)'"
+      Condition="'$(TSLintOutputExpected)' == '$(TSLintOutputActual)'"
       Importance="High"
       Text="TSLintOutput passed." />
   </Target>
