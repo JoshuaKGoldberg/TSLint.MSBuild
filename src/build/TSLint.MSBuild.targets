@@ -29,8 +29,8 @@
 
     <!-- TSLintExclude might include special characters, so those should be escaped -->
     <PropertyGroup>
-      <TSLintExcludeJoined Condition="'@(TSLintExclude' != ''">@(TSLintExclude, ' --exclude ')</TSLintExcludeJoined>
-      <TSLintExcludeJoined Condition="'$(TSLintExcludeJoined' != ''">$(TSLintExcludeJoined.Replace("*", "%2A"))</TSLintExcludeJoined>
+      <TSLintExcludeJoined Condition="'@(TSLintExclude)' != ''">@(TSLintExclude, ' --exclude ')</TSLintExcludeJoined>
+      <TSLintExcludeJoined Condition="'$(TSLintExcludeJoined)' != ''">$(TSLintExcludeJoined.Replace("*", "%2A"))</TSLintExcludeJoined>
     </PropertyGroup>
 
     <!-- Build the TSLint arguments -->
