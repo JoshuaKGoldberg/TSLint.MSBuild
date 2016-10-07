@@ -27,11 +27,17 @@
       <TSLintCli>$(TSLintCliProperty.Substring(0, $(TSLintCliProperty.IndexOf(';'))))</TSLintCli>
     </PropertyGroup>
 
+    <!-- TSLintExclude might include special characters, so those should be escaped -->
+    <PropertyGroup>
+      <TSLintExcludeJoined Condition="'@(TSLintExclude' != ''">@(TSLintExclude, ' --exclude ')</TSLintExcludeJoined>
+      <TSLintExcludeJoined Condition="'$(TSLintExcludeJoined' != ''">$(TSLintExcludeJoined.Replace("*", "%2A"))</TSLintExcludeJoined>
+    </PropertyGroup>
+
     <!-- Build the TSLint arguments -->
     <PropertyGroup>
       <TSLintArgs></TSLintArgs>
       <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
-      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude @(TSLintExclude, ' --exclude ')</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude $(TSLintExcludeJoined)</TSLintArgs>
       <TSLintArgs>$(TSLintArgs) --format msbuild</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
       <TSLintArgs Condition="'@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
