@@ -21,7 +21,7 @@ A .js runner file then takes in the path to that file list, scans for `tslint.js
 <table>
     <thead>
         <tr>
-            <td>Item</td>
+            <td>Item Group</td>
             <td>Description</td>
             <td>Default</td>
         </tr>
@@ -106,7 +106,7 @@ A .js runner file then takes in the path to that file list, scans for `tslint.js
 <table>
     <thead>
         <tr>
-            <td>Item Name</td>
+            <td>Property</td>
             <td>Description</td>
         </tr>
     </thead>
@@ -151,17 +151,19 @@ This is better for performance but has two downsides:
 
 #### Why?
 
-The original schema of TSLint.MSBuild requires multiple layers of processes calling each other, which can wreak havoc in complex managed build systems.
+The original structure of TSLint.MSBuild requires multiple layers of processes calling each other, which can wreak havoc in complex managed build systems.
+Then, in order:
 
-1. MSBuild determines build settings and passes them to the JavaScript code
-2. JavaScript code determines the TSLint location and re-formulates arguments
-3. JavaScript code runs TSLint via a spawned process, captures its output, and re-logs it
-4. MSBuild captures the (re-logged TSLint ) JavaScript output and logs it 
+1. MSBuild determined build settings and passed them to the JavaScript code
+2. JavaScript code determined the TSLint location and re-formulated any arguments
+3. JavaScript code ran TSLint via a spawned process, captured its output, and re-logged it
+4. MSBuild captured the (re-logged TSLint) JavaScript output and logged it 
 
 1.X unified all the logic into MSBuild, which resulted in significant performance gains, code simplification, and runtime stability. 
+Now, in order:
 
 1. MSBuild determines build settings and TSLint location
-2. MSBuild runs TSLint using the packaged Node executable, captures its output, and re-logs it
+2. MSBuild runs TSLint using the packaged Node executable
 
 ### 0.3.X to 0.4.X
 

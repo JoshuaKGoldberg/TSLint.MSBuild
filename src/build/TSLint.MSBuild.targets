@@ -49,7 +49,8 @@
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
       EchoOff="true"
-      IgnoreExitCode="true">
+      IgnoreExitCode="true"
+      IgnoreStandardErrorWarningFormat="true">
       <Output TaskParameter="ConsoleOutput" ItemName="TSLintOutput" />
       <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
     </Exec>
