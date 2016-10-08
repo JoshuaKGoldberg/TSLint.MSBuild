@@ -7,5 +7,5 @@ test/**/bin/**
 test/**/obj/**
 
 # Output
-/lib
+/dist
 *.nupkg

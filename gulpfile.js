@@ -1,4 +1,7 @@
+const fs = require("fs");
 const gulp = require("gulp");
+const nuget = require("gulp-nuget");
+const request = require("request");
 const runSequence = require("run-sequence");
 const msbuild = require("gulp-msbuild");
 
@@ -17,4 +20,23 @@ tests.forEach(testName => {
 
 gulp.task("test", callback => runSequence(...testTasks, callback));
 
-gulp.task("default", ["test"]);
+gulp.task("nuget-download", callback => {
+    if (fs.existsSync("nuget.exe")) {
+        return callback();
+    }
+
+    request.get("http://nuget.org/nuget.exe")
+        .pipe(fs.createWriteStream("nuget.exe"))
+        .on("close", callback);
+});
+
+
+gulp.task("nuget-pack", () => {
+    return gulp.src("TSLint.MSBuild.nuspec")
+        .pipe(nuget.pack({
+            nuget: "./nuget.exe"
+        }))
+        .pipe(gulp.dest("dist"));
+});
+
+gulp.task("default", ["test", "nuget-download", "nuget-pack"]);

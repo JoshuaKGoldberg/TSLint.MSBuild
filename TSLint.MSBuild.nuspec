@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>TSLint.MSBuild</id>
-    <version>0.9.0</version>
+    <version>1.0.0-beta0</version>
     <authors>palantir, joshuakgoldberg</authors>
     <owners>joshuakgoldberg</owners>
     <licenseUrl>https://github.com/JoshuaKGoldberg/TSLint.MSBuild/blob/master/LICENSE.md</licenseUrl>
@@ -19,7 +19,7 @@
   <files>
     <file src="LICENSE.md" target="tools" />
     <file src="README.md" target="tools" />
-    <file src="src\node-*.exe" target="tools" />
-    <file src="src\TSLint.MSBuild.targets" target="build" />
+    <file src="src\tools\node-*.exe" target="tools" />
+    <file src="src\build\TSLint.MSBuild.targets" target="build" />
   </files>
 </package>

@@ -132,6 +132,12 @@ npm install
 ```
 
 Run `gulp` to build.
+`gulp test` just runs tests.
+
+### Updating the version
+
+The version number is stored both in `package.json` and `TSLint.MSBuild.nuspec`.
+Make sure to update it in both places.
 
 ### 0.X to 1.X
 
