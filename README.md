@@ -122,6 +122,11 @@ A .js runner file then takes in the path to that file list, scans for `tslint.js
 
 The *first* available TSLint version in your NuGet packages directory will be used. 
 
+### Errata
+
+You can exclude `.d.ts` files using `<TSLintExclude Include="%2A%2A/%2A.d.ts" />`.
+MSBuild escapes `*` and other special characters using `%` and their hexadecimal value.
+
 
 ## Development
 
