@@ -20,7 +20,7 @@
 
     <!-- Grab the first matching TSLint CLI in a NuGet packages install -->
     <ItemGroup Condition="'$(TSLintCli)' == ''">
-      <TSLintPotentialCli Include="$(SolutionDir)**\tslint.*.*.*\tools\node_modules\tslint\lib\tslint-cli.js" />
+      <TSLintPotentialCli Include="$(MSBuildThisFileDirectory)..\..\tslint.*.*.*\tools\node_modules\tslint\lib\tslint-cli.js" />
     </ItemGroup>
     <PropertyGroup Condition="'$(TSLintCli)' == ''">
       <TSLintCliProperty>@(TSLintPotentialCli);</TSLintCliProperty>
@@ -49,8 +49,7 @@
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
       EchoOff="true"
-      IgnoreExitCode="true"
-      IgnoreStandardErrorWarningFormat="true">
+      IgnoreExitCode="true">
       <Output TaskParameter="ConsoleOutput" ItemName="TSLintOutput" />
       <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
     </Exec>
