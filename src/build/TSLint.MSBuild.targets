@@ -13,7 +13,7 @@
     <!-- PropertyGroup settings -->
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
-      <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)..\tools\node-6.1.0.exe"))</TSLintNodeExe>
+      <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)..\tools\node-7.3.0.exe"))</TSLintNodeExe>
       <TSLintVersion Condition="'$(TSLintVersion)' == ''">*.*.*</TSLintVersion>
     </PropertyGroup>
 

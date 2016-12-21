@@ -89,7 +89,7 @@ Note that to use special characters (such as `*` wildcards) in `TSLintExclude` y
         <tr>
             <th><code>TSLintNodeExe</code></th>
             <td>Path to a Node executable to execute the runner script.</td>
-            <td>The <code>tools\node-6.1.0.exe</code> in the package.</td>
+            <td>The <code>tools\node-7.3.0.exe</code> in the package.</td>
         </tr>
         <tr>
             <th><code>TSLintProject</code></th>
