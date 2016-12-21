@@ -1,14 +1,11 @@
-const fs = require("fs");
 const gulp = require("gulp");
-const nuget = require("gulp-nuget");
-const request = require("request");
-const runSequence = require("run-sequence");
-const msbuild = require("gulp-msbuild");
 
 const tests = ["TSLintArgs", "TSLintCli", "TSLintOutput", "TSLintVersion"];
 const testTasks = tests.map(testName => `test:${testName}`);
 
 tests.forEach(testName => {
+    const msbuild = require("gulp-msbuild");
+
     gulp.task(`test:${testName}`, () => {
         return gulp.src(`./test/${testName}/${testName}.sln`)
             .pipe(msbuild({
@@ -18,11 +15,19 @@ tests.forEach(testName => {
     });
 });
 
-gulp.task("test", callback => runSequence(...testTasks, callback));
+gulp.task("test", callback => {
+    const runSequence = require("run-sequence");
+
+    runSequence(...testTasks, callback);
+});
 
 gulp.task("nuget-download", callback => {
+    const fs = require("fs");
+    const request = require("request");
+
     if (fs.existsSync("nuget.exe")) {
-        return callback();
+        callback();
+        return;
     }
 
     request.get("http://nuget.org/nuget.exe")
@@ -32,6 +37,8 @@ gulp.task("nuget-download", callback => {
 
 
 gulp.task("nuget-pack", () => {
+    const nuget = require("gulp-nuget");
+
     return gulp.src("TSLint.MSBuild.nuspec")
         .pipe(nuget.pack({
             nuget: "./nuget.exe"
