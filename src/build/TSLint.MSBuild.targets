@@ -48,7 +48,7 @@
 
     <!-- Run TSLint using the Node executable -->
     <Exec
-      Command="&quot;$(TSLintNodeExe)&quot; $(TSLintCli) $(TSLintArgs)"
+      Command="&quot;$(TSLintNodeExe)&quot; &quot;$(TSLintCli)&quot; $(TSLintArgs)"
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
       EchoOff="true"
