@@ -44,6 +44,8 @@
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintExtraArgs)' != ''">$(TSLintArgs) $(TSLintExtraArgs)</TSLintArgs>
       <TSLintArgs Condition="'@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
+      <TSLintCustomErrorRegularExpression  Condition="'$(TreatWarningsAsErrors)' == 'true'">warning</TSLintCustomErrorRegularExpression>
+      <TSLintCustomWarningRegularExpression  Condition="'$(TreatWarningsAsErrors)' != 'true'">warning</TSLintCustomWarningRegularExpression>
     </PropertyGroup>
 
     <!-- Run TSLint using the Node executable -->
@@ -52,12 +54,17 @@
       Condition="'$(TSLintDisabled)' != 'true'"
       ConsoleToMsBuild="true"
       EchoOff="true"
+      ContinueOnError="false"
+      CustomErrorRegularExpression="$(TSLintCustomErrorRegularExpression)"
+      CustomWarningRegularExpression="$(TSLintCustomWarningRegularExpression)"
+      IgnoreStandardErrorWarningFormat="true"
       IgnoreExitCode="true">
       <Output TaskParameter="ConsoleOutput" ItemName="TSLintOutput" />
       <Output TaskParameter="ExitCode" PropertyName="TSLintErrorCode" />
     </Exec>
 
     <!-- Return an error if linter returned exitcode -1 and we should break on errors -->
-    <Error Condition="'$(TSLintErrorCode)' == '-1' and '$(TSLintBreakBuildOnError)' == 'true'" />
+    <Error Condition="'$(TreatWarningsAsErrors)' == 'true' and '$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" Text="TSLint: verification failed" />
+    <Warning Condition="'$(TreatWarningsAsErrors)' != 'true' and '$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" Text="TSLint: verification failed" />
   </Target>
 </Project>
