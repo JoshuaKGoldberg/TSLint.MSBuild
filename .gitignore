@@ -9,3 +9,5 @@ test/**/obj/**
 # Output
 /dist
 *.nupkg
+/.vs/config/applicationhost.config
+/.vs

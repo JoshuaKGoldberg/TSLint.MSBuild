@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 
-const tests = ["TSLintArgs", "TSLintCli", "TSLintOutput", "TSLintVersion"];
+const tests = ["TSLintArgs", "TSLintCli", "TSLintCliLocalTSLint", "TSLintOutput", "TSLintVersion"];
 const testTasks = tests.map(testName => `test:${testName}`);
 
 tests.forEach(testName => {

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\src\build\TSLint.MSBuild.targets" />
+
+  <Target Name="Rebuild" />
+
+  <!-- Fake setup for the TypeScript build environment -->
+  <Target AfterTargets="Rebuild" Name="CompileTypeScript">
+    <ItemGroup>
+      <TypeScriptCompile Include="foo.ts" />
+    </ItemGroup>
+
+    <PropertyGroup>
+      <BuildingProject>true</BuildingProject>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Fake properties for the TSLint task -->
+  <PropertyGroup>
+    <TSLintDisabled>true</TSLintDisabled>
+  </PropertyGroup>
+
+  <!-- Post-TSLint verification -->
+  <Target AfterTargets="TSLint" Name="Test">
+    <PropertyGroup>
+      <TSLintCliExpected>$(ProjectDir)node_modules\tslint\lib\tslint</TSLintCliExpected>
+    </PropertyGroup>
+
+    <Error
+      Condition="'$(TSLintCliExpected)' != '$(TSLintCli)'"
+      Text="Expected TSLintCli to be%0a'$(TSLintCliExpected)'%0abut got%0a'$(TSLintCli)'.." />
+
+    <Message
+      Condition="'$(TSLintCliExpected)' == '$(TSLintCli)'"
+      Importance="High"
+      Text="TSLintCli passed." />
+  </Target>
+</Project>
