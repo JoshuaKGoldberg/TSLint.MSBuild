@@ -3,7 +3,7 @@
   <metadata>
     <id>TSLint.MSBuild</id>
     <title>TSLint.MSBuild</title>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <authors>palantir, joshuakgoldberg</authors>
     <owners>joshuakgoldberg</owners>
     <licenseUrl>https://github.com/JoshuaKGoldberg/TSLint.MSBuild/blob/master/LICENSE.md</licenseUrl>

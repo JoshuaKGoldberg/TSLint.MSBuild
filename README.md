@@ -74,7 +74,7 @@ Note that to use special characters (such as `*` wildcards) in `TSLintExclude` y
         <tr>
             <th><code>TSLintCli</code></th>
             <td>Path to a TSLint CLI to run with.</td>
-            <td>The highest-versioned TSLint version in the solution's <code>packages</code> directory.</td>
+            <td>The first TSLint version in the solution's <code>packages</code> directory, or the Project Dir's node_modules/tslint/bin/tslint directory.</td>
         </tr>
         <tr>
             <th><code>TSLintDisabled</code></th>
@@ -116,6 +116,10 @@ Note that to use special characters (such as `*` wildcards) in `TSLintExclude` y
             <td>Glob filter for the version of TSLint to use <em>(ignored if <code>TSLintConfig</code> is provided)</em>.</td>
             <td><code>*.*.*</code></td>
         </tr>
+        <tr>
+            <th><code>TSLintFileListDisabled</code></th>
+            <td>Whether to disable passing TypeScript file list on the command line. If true, it is expected that the files to lint are specified in the <code>TSLintProject</code> file.</td>
+            <td><code>false</code></td>
     </tbody>
 </table>
 

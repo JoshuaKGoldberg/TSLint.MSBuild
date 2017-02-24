@@ -22,7 +22,7 @@
     <ItemGroup Condition="'$(TSLintCli)' == ''">
       <TSLintPotentialCli Include="$(SolutionDir)packages\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslint-cli.js" />
       <TSLintPotentialCli Include="$(MSBuildThisFileDirectory)..\..\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslint-cli.js" />
-      <TSLintPotentialCli Include="$(ProjectDir)node_modules/tslint/bin/tslint" />
+      <TSLintPotentialCli Include="$(ProjectDir)node_modules\tslint\bin\tslint" />
     </ItemGroup>
     <PropertyGroup Condition="'$(TSLintCli)' == ''">
       <TSLintCliProperty>@(TSLintPotentialCli);</TSLintCliProperty>
@@ -45,8 +45,10 @@
       <TSLintArgs Condition="'$(TSLintTypeCheck)' != ''">$(TSLintArgs) --type-check $(TSLintTypeCheck)</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintExtraArgs)' != ''">$(TSLintArgs) $(TSLintExtraArgs)</TSLintArgs>
-      <TSLintArgs Condition="'@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintFileListDisabled)' != 'true' And '@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
     </PropertyGroup>
+
+    <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
 
     <!-- Run TSLint using the Node executable -->
     <Exec

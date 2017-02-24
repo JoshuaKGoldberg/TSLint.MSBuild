@@ -7,7 +7,7 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{TSLintCli-Guid}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{TSLintCli-Guid}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{TSLintCliLocalTSLint-Guid}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{TSLintCliLocalTSLint-Guid}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal

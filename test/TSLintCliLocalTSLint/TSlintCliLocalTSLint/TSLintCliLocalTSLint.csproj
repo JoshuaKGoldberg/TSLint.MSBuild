@@ -23,7 +23,7 @@
   <!-- Post-TSLint verification -->
   <Target AfterTargets="TSLint" Name="Test">
     <PropertyGroup>
-      <TSLintCliExpected>$(ProjectDir)node_modules\tslint\lib\tslint</TSLintCliExpected>
+      <TSLintCliExpected>$(ProjectDir)node_modules\tslint\bin\tslint</TSLintCliExpected>
     </PropertyGroup>
 
     <Error
@@ -33,6 +33,6 @@
     <Message
       Condition="'$(TSLintCliExpected)' == '$(TSLintCli)'"
       Importance="High"
-      Text="TSLintCli passed." />
+      Text="TSLintCliLocalTSLint passed." />
   </Target>
 </Project>
