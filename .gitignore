@@ -11,3 +11,4 @@ test/**/obj/**
 *.nupkg
 /.vs/config/applicationhost.config
 /.vs
+*.user
