@@ -13,6 +13,7 @@
     <!-- PropertyGroup settings -->
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
+      <TSLintFormat Condition="'$(TSLintFormat)' == ''">msbuild</TSLintFormat>
       <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)..\tools\node-7.3.0.exe"))</TSLintNodeExe>
       <TSLintTimeout Condition="'$(TSLintTimeout)' == ''">10000000</TSLintTimeout>
       <TSLintVersion Condition="'$(TSLintVersion)' == ''">*.*.*</TSLintVersion>
@@ -40,7 +41,7 @@
       <TSLintArgs></TSLintArgs>
       <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude $(TSLintExcludeJoined)</TSLintArgs>
-      <TSLintArgs>$(TSLintArgs) --format msbuild</TSLintArgs>
+      <TSLintArgs>$(TSLintArgs) --format $(TSLintFormat)</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintProject)' != ''">$(TSLintArgs) --project $(TSLintProject)</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintTypeCheck)' != ''">$(TSLintArgs) --type-check $(TSLintTypeCheck)</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
