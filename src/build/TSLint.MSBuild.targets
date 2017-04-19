@@ -3,12 +3,15 @@
   <!-- Ensures that if this file changes it forces a TypeScript rebuild -->
   <PropertyGroup>
     <TypeScriptAllProjects>$(TypeScriptAllProjects);$(MSBuildThisFileFullPath)</TypeScriptAllProjects>
+    <TSLintTimestampFile Condition="'$(TSLintTimestampFile)' == ''">$(OBJECT_ROOT)\$(MSBuildProjectName).TSLint.timestamp.txt</TSLintTimestampFile>
   </PropertyGroup>
 
   <Target
     AfterTargets="CompileTypeScript"
     Condition="'@(TypeScriptCompile)' != '' and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
-    Name="TSLint">
+    Inputs="@(TypeScriptCompile)"
+    Name="TSLint"
+    Outputs="$(TSLintTimestampFile)">
 
     <!-- PropertyGroup settings -->
     <PropertyGroup>
@@ -50,6 +53,10 @@
     </PropertyGroup>
 
     <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
+
+    <Touch
+      AlwaysCreate="true"
+      Files="$(TSLintTimestampFile)" />
 
     <!-- Run TSLint using the Node executable -->
     <Exec
