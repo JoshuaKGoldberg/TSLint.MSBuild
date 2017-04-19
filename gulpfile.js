@@ -5,11 +5,15 @@ const testTasks = tests.map(testName => `test:${testName}`);
 
 tests.forEach(testName => {
     const msbuild = require("gulp-msbuild");
+    const path = require("path");
 
     gulp.task(`test:${testName}`, () => {
         return gulp.src(`./test/${testName}/${testName}.sln`)
             .pipe(msbuild({
                 configuration: "Debug",
+                properties: {
+                    OutputPath: path.normalize("../../../test/bin")
+                },
                 stdout: true
             }));
     });

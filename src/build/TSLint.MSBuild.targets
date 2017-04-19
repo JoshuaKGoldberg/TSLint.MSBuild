@@ -3,7 +3,7 @@
   <!-- Ensures that if this file changes it forces a TypeScript rebuild -->
   <PropertyGroup>
     <TypeScriptAllProjects>$(TypeScriptAllProjects);$(MSBuildThisFileFullPath)</TypeScriptAllProjects>
-    <TSLintTimestampFile Condition="'$(TSLintTimestampFile)' == ''">$(OBJECT_ROOT)\$(MSBuildProjectName).TSLint.timestamp.txt</TSLintTimestampFile>
+    <TSLintTimestampFile Condition="'$(TSLintTimestampFile)' == ''">$(OutputPath)\$(MSBuildProjectName).TSLint.timestamp.txt</TSLintTimestampFile>
   </PropertyGroup>
 
   <Target
