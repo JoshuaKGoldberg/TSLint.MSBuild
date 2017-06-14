@@ -36,6 +36,11 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for TSLint-s
             <td><em><code>(blank)</code></em></td>
         </tr>
         <tr>
+            <th><code>TSLintInclude</code></th>
+            <td>File names to lint.</td>
+            <td><code>@(TypeScriptCompile)</code> <em>(unless <code>TSLintExcludeTypeScriptCompile</code> is <code>true</code>)</em></td>
+        </tr>
+        <tr>
             <th><code>TSLintRulesDirectory</code></th>
             <td>Directories for user-created rules</td>
             <td><em><code>(blank)</code></em></td>
@@ -79,6 +84,11 @@ Note that to use special characters (such as `*` wildcards) in `TSLintExclude` y
         <tr>
             <th><code>TSLintDisabled</code></th>
             <td>Whether to skip running TSLint.</td>
+            <td><code>false</code></td>
+        </tr>
+        <tr>
+            <th><code>TSLintExcludeTypeScriptCompile</code></th>
+            <td>Whether to exclude <code>@(TypeScriptCompile)</code> from <code>@(TSLintInclude)</code>.</td>
             <td><code>false</code></td>
         </tr>
         <tr>

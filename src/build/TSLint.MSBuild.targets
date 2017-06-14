@@ -8,12 +8,15 @@
 
   <Target
     AfterTargets="CompileTypeScript"
-    Condition="'@(TypeScriptCompile)' != '' and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
-    Inputs="@(TypeScriptCompile)"
+    Condition="('@(TSLintInclude)' != '' or '@(TypeScriptCompile)' != '') and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
+    Inputs="@(TSLintInclude);@(TypeScriptCompile)"
     Name="TSLint"
     Outputs="$(TSLintTimestampFile)">
 
-    <!-- PropertyGroup settings -->
+    <ItemGroup Condition="'$(TSLintExcludeTypeScriptCompile)' != 'true'">
+      <TSLintInclude Include="@(TypeScriptCompile)" />
+    </ItemGroup>
+
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
       <TSLintFormat Condition="'$(TSLintFormat)' == ''">msbuild</TSLintFormat>
@@ -49,7 +52,7 @@
       <TSLintArgs Condition="'$(TSLintTypeCheck)' != ''">$(TSLintArgs) --type-check $(TSLintTypeCheck)</TSLintArgs>
       <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintExtraArgs)' != ''">$(TSLintArgs) $(TSLintExtraArgs)</TSLintArgs>
-      <TSLintArgs Condition="'$(TSLintFileListDisabled)' != 'true' And '@(TypeScriptCompile)' != ''">$(TSLintArgs) @(TypeScriptCompile, ' ')</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintFileListDisabled)' != 'true' And '@(TSLintInclude)' != ''">$(TSLintArgs) @(TSLintInclude, ' ')</TSLintArgs>
     </PropertyGroup>
 
     <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
