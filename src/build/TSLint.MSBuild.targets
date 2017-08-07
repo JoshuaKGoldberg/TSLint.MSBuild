@@ -57,6 +57,8 @@
 
     <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
 
+    <MakeDir Directories="$(OutputPath)" />
+    
     <Touch
       AlwaysCreate="true"
       Files="$(TSLintTimestampFile)" />
