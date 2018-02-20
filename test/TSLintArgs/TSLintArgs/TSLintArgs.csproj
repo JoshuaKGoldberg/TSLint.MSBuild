@@ -29,7 +29,7 @@
     <TSLintDisabled>true</TSLintDisabled>
     <TSLintFormat>json</TSLintFormat>
     <TSLintConfig>tslint.json</TSLintConfig>
-    <TSLintExtraArgs>--baz qux</TSLintExtraArgs>
+    <TSLintExtraArgs>--baz "qux"</TSLintExtraArgs>
     <TSLintProject>tsconfig.json</TSLintProject>
     <TSLintTypeCheck>true</TSLintTypeCheck>
   </PropertyGroup>
@@ -37,7 +37,7 @@
   <!-- Post-TSLint verification -->
   <Target AfterTargets="TSLint" Name="Test">
     <PropertyGroup>
-      <TSLintArgsExpected> --config tslint.json --exclude foo.ts --exclude bar.ts --format json --project tsconfig.json --type-check true --rules-dir rules/foo --rules-dir rules/bar --baz qux foo.ts bar.ts baz.ts qux.ts</TSLintArgsExpected>
+      <TSLintArgsExpected> --config "tslint.json" --exclude "foo.ts" --exclude "bar.ts" --format "json" --project "tsconfig.json" --type-check "true" --rules-dir "rules/foo" --rules-dir "rules/bar" --baz "qux" "foo.ts" "bar.ts" "baz.ts" "qux.ts"</TSLintArgsExpected>
     </PropertyGroup>
 
     <Error

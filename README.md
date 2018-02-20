@@ -1,8 +1,10 @@
-# TSLint for MSBuild
+# Updated TSLint for MSBuild
 
-[![NuGet Version and Downloads count](https://buildstats.info/nuget/TSLint.MSBuild)](https://www.nuget.org/packages/TSLint.MSBuild) 
+Old version seems unmaintained, that's why I forked it.
 
-An MSBuild target for linting TypeScript code using [TSLint](https://github.com/palantir/tslint). Get it at [nuget.org](https://www.nuget.org/packages/TSLint.MSBuild/).
+[![NuGet Version and Downloads count](https://buildstats.info/nuget/Updated.TSLint.MSBuild)](https://www.nuget.org/packages/Updated.TSLint.MSBuild) 
+
+An MSBuild target for linting TypeScript code using [TSLint](https://github.com/palantir/tslint). Get it at [nuget.org](https://www.nuget.org/packages/Updated.TSLint.MSBuild).
 
 ## Usage
 
@@ -51,8 +53,9 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for TSLint-s
 Note that to use special characters (such as `*` wildcards) in `TSLintExclude` you must escape the special characters.
 
 ```xml
-<!-- Equivalent to "typings/**/*.d.ts" -->
-<TSLintExclude Include="typings/%2A%2A/%2A.d.ts" />
+<ItemGroup>
+    <TSLintExclude Include="typings/**/*.d.ts"><Visible>False</Visible></TSLintExclude>
+</ItemGroup>
 ```
 
 #### Overrideable Properties
@@ -172,12 +175,6 @@ Note that to use special characters (such as `*` wildcards) in `TSLintExclude` y
 
 The *first* available TSLint version in your NuGet packages directory will be used. 
 
-### Errata
-
-You can exclude `.d.ts` files using `<TSLintExclude Include="%2A%2A/%2A.d.ts" />`.
-MSBuild escapes `*` and other special characters using `%` and their hexadecimal value.
-
-
 ## Development
 
 Run the following commands to initialize your environment:
@@ -195,4 +192,4 @@ Run `gulp` to build.
 The version number is stored both in `package.json` and `TSLint.MSBuild.nuspec`.
 Make sure to update it in both places.
 
-File a [bug report](https://github.com/JoshuaKGoldberg/TSLint.MSBuild/issues) if upgrading causes any issues.
+File a [bug report](https://github.com/isc30/TSLint.MSBuild/issues) if upgrading causes any issues.

@@ -1,17 +1,18 @@
 {
-  "name": "tslint-msbuild",
-  "version": "1.2.1",
-  "description": "An MSBuild target for linting TypeScript code using TSLint.",
-  "author": "Joshua K Goldberg",
+  "name": "new-tslint-msbuild",
+  "version": "2.1",
+  "description": "Updated MSBuild target for linting TypeScript code using TSLint.",
+  "author": "Ivan Sanz-Carasa",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/JoshuaKGoldberg/TSLint.MSBuild"
+    "url": "https://github.com/isc30/TSLint.MSBuild"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "gulp": "^3.9.1",
-    "gulp-msbuild": "^0.4.0",
-    "gulp-nuget": "^1.0.1",
-    "request": "^2.75.0",
-    "run-sequence": "^1.2.2"
+    "gulp-msbuild": "^0.5.4",
+    "gulp-nuget": "^1.2.0",
+    "request": "^2.83.0",
+    "run-sequence": "^2.2.1"
   }
 }

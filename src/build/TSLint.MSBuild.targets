@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- Ensures that if this file changes it forces a TypeScript rebuild -->
-  <PropertyGroup>
-    <TypeScriptAllProjects>$(TypeScriptAllProjects);$(MSBuildThisFileFullPath)</TypeScriptAllProjects>
-    <TSLintTimestampFile Condition="'$(TSLintTimestampFile)' == ''">$(OutputPath)\$(MSBuildProjectName).TSLint.timestamp.txt</TSLintTimestampFile>
-  </PropertyGroup>
 
   <Target
     AfterTargets="CompileTypeScript"
-    Condition="('@(TSLintInclude)' != '' or '@(TypeScriptCompile)' != '') and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
+	Condition="('@(TSLintInclude)' != '' or '@(TypeScriptCompile)' != '') and ('$(BuildingProject)' == 'true' or '$(TSLintRunWhenNotBuilding)' == 'true')"
     Inputs="@(TSLintInclude);@(TypeScriptCompile)"
     Name="TSLint"
-    Outputs="$(TSLintTimestampFile)">
+    Outputs="$([System.DateTime]::UtcNow.Ticks)">
 
+	<Message Text="Running TSLint..." Importance="high" />
+	
     <ItemGroup Condition="'$(TSLintExcludeTypeScriptCompile)' != 'true'">
       <TSLintInclude Include="@(TypeScriptCompile)" />
     </ItemGroup>
@@ -38,30 +35,25 @@
 
     <!-- TSLintExclude might include special characters, so those should be escaped -->
     <PropertyGroup>
-      <TSLintExcludeJoined Condition="'@(TSLintExclude)' != ''">@(TSLintExclude, ' --exclude ')</TSLintExcludeJoined>
-      <TSLintExcludeJoined Condition="'$(TSLintExcludeJoined)' != ''">$(TSLintExcludeJoined.Replace("*", "%2A"))</TSLintExcludeJoined>
+      <TSLintExclude Condition="'@(TSLintExclude)' != ''">@(TSLintExclude.Replace("*", "%2A"))</TSLintExclude>
+      <TSLintExclude Condition="'@(TSLintExclude)' != ''">@(TSLintExclude.Replace(".", "%2E"))</TSLintExclude>
+      <TSLintExcludeJoined Condition="'@(TSLintExclude)' != ''">@(TSLintExclude, '" --exclude "')</TSLintExcludeJoined>
     </PropertyGroup>
 
     <!-- Build the TSLint arguments -->
     <PropertyGroup>
       <TSLintArgs></TSLintArgs>
-      <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config $(TSLintConfig)</TSLintArgs>
-      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude $(TSLintExcludeJoined)</TSLintArgs>
-      <TSLintArgs>$(TSLintArgs) --format $(TSLintFormat)</TSLintArgs>
-      <TSLintArgs Condition="'$(TSLintProject)' != ''">$(TSLintArgs) --project $(TSLintProject)</TSLintArgs>
-      <TSLintArgs Condition="'$(TSLintTypeCheck)' != ''">$(TSLintArgs) --type-check $(TSLintTypeCheck)</TSLintArgs>
-      <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir @(TSLintRulesDirectory, ' --rules-dir ')</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintConfig)' != ''">$(TSLintArgs) --config "$(TSLintConfig)"</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintExclude)' != ''">$(TSLintArgs) --exclude "$(TSLintExcludeJoined)"</TSLintArgs>
+      <TSLintArgs>$(TSLintArgs) --format "$(TSLintFormat)"</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintProject)' != ''">$(TSLintArgs) --project "$(TSLintProject)"</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintTypeCheck)' != ''">$(TSLintArgs) --type-check "$(TSLintTypeCheck)"</TSLintArgs>
+      <TSLintArgs Condition="'@(TSLintRulesDirectory)' != ''">$(TSLintArgs) --rules-dir "@(TSLintRulesDirectory, '" --rules-dir "')"</TSLintArgs>
       <TSLintArgs Condition="'$(TSLintExtraArgs)' != ''">$(TSLintArgs) $(TSLintExtraArgs)</TSLintArgs>
-      <TSLintArgs Condition="'$(TSLintFileListDisabled)' != 'true' And '@(TSLintInclude)' != ''">$(TSLintArgs) @(TSLintInclude, ' ')</TSLintArgs>
+      <TSLintArgs Condition="'$(TSLintFileListDisabled)' != 'true' And '@(TSLintInclude)' != ''">$(TSLintArgs) "@(TSLintInclude, '" "')"</TSLintArgs>
     </PropertyGroup>
 
     <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
-
-    <MakeDir Directories="$(OutputPath)" />
-    
-    <Touch
-      AlwaysCreate="true"
-      Files="$(TSLintTimestampFile)" />
 
     <!-- Run TSLint using the Node executable -->
     <Exec
@@ -76,6 +68,6 @@
     </Exec>
 
     <!-- Return an error if TSLint returned an exit code and we should break on errors -->
-    <Error Condition="'$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" />
+    <Error Condition="'$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" Text="TSLint failed" />
   </Target>
 </Project>

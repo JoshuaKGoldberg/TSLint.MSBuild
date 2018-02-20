@@ -28,7 +28,7 @@
   <PropertyGroup>
     <TSLintDisabled>true</TSLintDisabled>
     <TSLintConfig>tslint.json</TSLintConfig>
-    <TSLintExtraArgs>--baz qux</TSLintExtraArgs>
+    <TSLintExtraArgs>--baz "qux"</TSLintExtraArgs>
     <TSLintProject>tsconfigforlint.json</TSLintProject>
     <TSLintTypeCheck>true</TSLintTypeCheck>
 	<TSLintFileListDisabled>true</TSLintFileListDisabled>
@@ -37,7 +37,7 @@
   <!-- Post-TSLint verification -->
   <Target AfterTargets="TSLint" Name="Test">
     <PropertyGroup>
-      <TSLintArgsExpected> --config tslint.json --exclude foo.ts --exclude bar.ts --format msbuild --project tsconfigforlint.json --type-check true --rules-dir rules/foo --rules-dir rules/bar --baz qux</TSLintArgsExpected>
+      <TSLintArgsExpected> --config "tslint.json" --exclude "foo.ts" --exclude "bar.ts" --format "msbuild" --project "tsconfigforlint.json" --type-check "true" --rules-dir "rules/foo" --rules-dir "rules/bar" --baz "qux"</TSLintArgsExpected>
     </PropertyGroup>
 
     <Error

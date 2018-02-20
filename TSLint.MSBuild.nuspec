@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>TSLint.MSBuild</id>
-    <title>TSLint.MSBuild</title>
-    <version>1.2.1</version>
-    <authors>palantir, joshuakgoldberg</authors>
-    <owners>joshuakgoldberg</owners>
-    <licenseUrl>https://github.com/JoshuaKGoldberg/TSLint.MSBuild/blob/master/LICENSE.md</licenseUrl>
-    <projectUrl>https://github.com/JoshuaKGoldberg/TSLint.MSBuild</projectUrl>
+    <id>Updated.TSLint.MSBuild</id>
+    <title>Updated TSLint.MSBuild</title>
+    <version>2.1</version>
+    <authors>palantir, joshuakgoldberg, isc30</authors>
+    <owners>isc30</owners>
+    <licenseUrl>https://github.com/isc30/TSLint.MSBuild/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/isc30/TSLint.MSBuild</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
-      An MSBuild target for linting TypeScript code using TSLint.
+      An Updated MSBuild target for linting TypeScript code using TSLint.
     </description>
     <tags>tslint, msbuild</tags>
   </metadata>
