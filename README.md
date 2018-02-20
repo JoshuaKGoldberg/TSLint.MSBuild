@@ -1,5 +1,7 @@
 # TSLint for MSBuild
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/JoshuaKGoldberg/TSLint.MSBuild.svg)](https://greenkeeper.io/)
+
 [![NuGet Version and Downloads count](https://buildstats.info/nuget/TSLint.MSBuild)](https://www.nuget.org/packages/TSLint.MSBuild) 
 
 An MSBuild target for linting TypeScript code using [TSLint](https://github.com/palantir/tslint). Get it at [nuget.org](https://www.nuget.org/packages/TSLint.MSBuild/).
