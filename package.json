@@ -9,9 +9,9 @@
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-msbuild": "^0.4.0",
+    "gulp-msbuild": "^0.5.4",
     "gulp-nuget": "^1.0.1",
     "request": "^2.75.0",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^2.2.1"
   }
 }
