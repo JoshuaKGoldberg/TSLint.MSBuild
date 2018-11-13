@@ -23,6 +23,7 @@
 
     <PropertyGroup>
       <TSLintBreakBuildOnError Condition="'$(TSLintBreakBuildOnError)' == ''">false</TSLintBreakBuildOnError>
+	  <TSLintCreateTimestampFile Condition="'$(TSLintCreateTimestampFile)' == ''">true</TSLintCreateTimestampFile>
       <TSLintFormat Condition="'$(TSLintFormat)' == ''">msbuild</TSLintFormat>
       <TSLintNodeExe Condition="'$(TSLintNodeExe)' == ''">$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)..\tools\node-7.3.0.exe"))</TSLintNodeExe>
       <TSLintTimeout Condition="'$(TSLintTimeout)' == ''">10000000</TSLintTimeout>
@@ -66,9 +67,11 @@
 
     <MakeDir Directories="$(OutputPath)" />
     
-    <Touch
-      AlwaysCreate="true"
-      Files="$(TSLintTimestampFile)" />
+	<ItemGroup Condition="'$(TSLintCreateTimestampFile)' == 'true'">
+		<Touch
+		  AlwaysCreate="true"
+		  Files="$(TSLintTimestampFile)" />
+	</ItemGroup>
 
     <!-- Run TSLint using the Node executable -->
     <Exec
