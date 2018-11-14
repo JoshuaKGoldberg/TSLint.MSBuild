@@ -70,7 +70,7 @@ Read the [TSLint documentation](https://github.com/palantir/tslint) for TSLint-s
             <td>Whether linting failures should break the build.</td>
             <td><code>false</code></td>
         </tr>
-		<tr>
+        <tr>
             <th><code>TSLintCreateTimestampFile</code></th>
             <td>Whether the timestamp file should be created on each build.</td>
             <td><code>true</code></td>
