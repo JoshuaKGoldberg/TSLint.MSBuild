@@ -66,12 +66,11 @@
     <Error Condition="'$(TSLintFileListDisabled)' == 'true' And '$(TSLintProject)' == ''" Text="You disabled file listing on the command line using TSLintFileDisabled, but did not specify a project file with TSLintProject." />
 
     <MakeDir Directories="$(OutputPath)" />
-    
-	<ItemGroup Condition="'$(TSLintCreateTimestampFile)' == 'true'">
-		<Touch
-		  AlwaysCreate="true"
-		  Files="$(TSLintTimestampFile)" />
-	</ItemGroup>
+
+    <Touch
+      Condition="'$(TSLintCreateTimestampFile)' == 'true'"
+      AlwaysCreate="true"
+      Files="$(TSLintTimestampFile)" />
 
     <!-- Run TSLint using the Node executable -->
     <Exec
