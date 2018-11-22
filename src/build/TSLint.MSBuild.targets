@@ -67,11 +67,6 @@
 
     <MakeDir Directories="$(OutputPath)" />
 
-    <Touch
-      Condition="'$(TSLintCreateTimestampFile)' == 'true'"
-      AlwaysCreate="true"
-      Files="$(TSLintTimestampFile)" />
-
     <!-- Run TSLint using the Node executable -->
     <Exec
       Command="&quot;$(TSLintNodeExe)&quot; &quot;$(TSLintCli)&quot; $(TSLintArgs)"
