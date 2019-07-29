@@ -32,6 +32,11 @@
 
     <!-- Grab the first matching TSLint CLI in a NuGet packages install -->
     <ItemGroup Condition="'$(TSLintCli)' == ''">
+      <TSLintPotentialCli Include="$(SolutionDir)packages\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslintCli.js" />
+      <TSLintPotentialCli Include="$(SolutionDir)packages\tslint\$(TSLintVersion)\tools\node_modules\tslint\lib\tslintCli.js" />
+      <TSLintPotentialCli Include="$(MSBuildThisFileDirectory)..\..\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslintCli.js" />
+      <TSLintPotentialCli Include="$(MSBuildThisFileDirectory)..\..\..\tslint\$(TSLintVersion)\tools\node_modules\tslint\lib\tslintCli.js" />
+      <!-- support for tslint 5.10 and below -->
       <TSLintPotentialCli Include="$(SolutionDir)packages\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslint-cli.js" />
       <TSLintPotentialCli Include="$(SolutionDir)packages\tslint\$(TSLintVersion)\tools\node_modules\tslint\lib\tslint-cli.js" />
       <TSLintPotentialCli Include="$(MSBuildThisFileDirectory)..\..\tslint.$(TSLintVersion)\tools\node_modules\tslint\lib\tslint-cli.js" />
