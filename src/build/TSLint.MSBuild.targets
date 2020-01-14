@@ -92,6 +92,6 @@
       Files="$(TSLintTimestampFile)" />
 
     <!-- Return an error if TSLint returned an exit code and we should break on errors -->
-    <Error Condition="'$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" Text="TSLint checks failed" />
+    <Error Condition="'$(TSLintDisabled)' != 'true' and '$(TSLintErrorCode)' != '0' and '$(TSLintBreakBuildOnError)' == 'true'" Text="TSLint checks failed" />
   </Target>
 </Project>
